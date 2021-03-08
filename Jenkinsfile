@@ -21,13 +21,15 @@ pipeline{
         stage("Upload"){
             steps{
                 echo "Uploading..."
+                //新版本包强制覆盖
                 sh "cp -f target/Backend-COIN-1.0-SNAPSHOT.jar /usr/local/backend/Backend-COIN-1.0-SNAPSHOT.jar "
             }
         }
         stage("Deploy"){
             steps{
                 echo "Deploying..."
-                //sh "java -jar target/Backend-COIN-1.0-SNAPSHOT.jar"
+                //
+                //sh "sh /usr/local/backend/start.sh"
             }
         }
     }
