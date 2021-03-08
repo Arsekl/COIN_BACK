@@ -8,7 +8,7 @@ pipeline{
            steps{
                echo "Getting code..."
                checkout scm
-               echo ${JAVA_HOME}
+               echo "${JAVA_HOME}"
            }
         }
         stage("Maven"){
