@@ -28,8 +28,8 @@ pipeline{
         stage("Deploy"){
             steps{
                 echo "Deploying..."
-                //
-                //sh "sh /usr/local/backend/start.sh"
+                //执行宿主机脚本部署
+                sh "sh /usr/local/backend/start.sh"
             }
         }
     }
