@@ -21,7 +21,7 @@ pipeline{
         stage("Deploy"){
             steps{
                 echo "Deploying..."
-                sh "ls"
+                sh "java -jar target/Backend-COIN-1.0-SNAPSHOT.jar"
             }
         }
     }
