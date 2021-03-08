@@ -7,13 +7,15 @@ pipeline{
         stage("Getcode"){
            steps{
                echo "Getting code..."
+               //代码获取
                checkout scm
-               echo "${JAVA_HOME}"
            }
         }
         stage("Maven"){
             steps{
                 echo "Mavening..."
+                //maven构建
+                sh "mvn -Dmaven.test.skip=true clean package"
             }
         }
         stage("Deploy"){
