@@ -21,16 +21,10 @@ pipeline{
         stage("Upload"){
             steps{
                 echo "Uploading..."
-                //新版本包强制覆盖
-                sh "cp -f target/Backend-COIN-1.0-SNAPSHOT.jar /usr/local/backend/Backend-COIN-1.0-SNAPSHOT.jar "
+
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'kg666', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'sh /usr/local/backend/start.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/usr/local/backend', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/Backend-COIN-1.0-SNAPSHOT.jar')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
-        stage("Deploy"){
-            steps{
-                echo "Deploying..."
-                //执行宿主机脚本部署
-                sh "sh /usr/local/backend/start.sh"
-            }
-        }
+
     }
 }
