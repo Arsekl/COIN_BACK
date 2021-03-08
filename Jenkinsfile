@@ -18,10 +18,16 @@ pipeline{
                 sh "mvn -Dmaven.test.skip=true clean package"
             }
         }
+        stage("Upload"){
+            steps{
+                echo "Uploading..."
+                sh "docker cp target/Backend-COIN-1.0-SNAPSHOT.jar /usr/local/backend"
+            }
+        }
         stage("Deploy"){
             steps{
                 echo "Deploying..."
-                sh "java -jar target/Backend-COIN-1.0-SNAPSHOT.jar"
+                //sh "java -jar target/Backend-COIN-1.0-SNAPSHOT.jar"
             }
         }
     }
