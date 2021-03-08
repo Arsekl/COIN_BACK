@@ -15,7 +15,8 @@ pipeline{
             steps{
                 echo "Mavening..."
                 //maven构建
-                sh "mvn -Dmaven.test.skip=true clean package"
+                echo $PATH
+                //sh "mvn -Dmaven.test.skip=true clean package"
             }
         }
         stage("Deploy"){
