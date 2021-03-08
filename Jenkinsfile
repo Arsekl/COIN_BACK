@@ -21,7 +21,7 @@ pipeline{
         stage("Upload"){
             steps{
                 echo "Uploading..."
-                sh "docker cp target/Backend-COIN-1.0-SNAPSHOT.jar /usr/local/backend"
+                sh "cp -f target/Backend-COIN-1.0-SNAPSHOT.jar /usr/local/backend/Backend-COIN-1.0-SNAPSHOT.jar "
             }
         }
         stage("Deploy"){
