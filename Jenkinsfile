@@ -2,37 +2,29 @@
 
 pipeline{
     agent any
-    post {
-      failure {
-        updateGitlabCommitStatus name: 'getcode', state: 'failed'
-        updateGitlabCommitStatus name: 'package', state: 'failed'
-        updateGitlabCommitStatus name: 'deploy', state: 'failed'
-      }
-      success {
-        updateGitlabCommitStatus name: 'getcode', state: 'success'
-        updateGitlabCommitStatus name: 'package', state: 'success'
-        updateGitlabCommitStatus name: 'deploy', state: 'success'
-      }
-    }
-    options {
-      gitLabConnection('test')
-      gitlabBuilds(builds: ['getcode', 'package', 'deploy'])
-    }
+
     stages{
-        stage("getcode"){
+        stage("Getcode"){
            steps{
-               echo "get code from scm"
+               echo "Getting code..."
+               //代码获取
+               checkout scm
            }
         }
-        stage("package"){
+        stage("Maven"){
             steps{
-                echo "packge code"
+                echo "Mavening..."
+                //maven构建
+                sh "mvn -Dmaven.test.skip=true clean package"
             }
         }
-        stage("deploy"){
+        stage("Upload"){
             steps{
-                echo "deploy packge to node1"
+                echo "Uploading..."
+                //ssh传送文件并执行脚本
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'kg666', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'nohup sh /usr/local/backend/start.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'usr/local/backend/', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/Backend-COIN-1.0-SNAPSHOT.jar', usePty: true)], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
             }
         }
+
     }
 }
