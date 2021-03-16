@@ -82,7 +82,7 @@ public class MyNeo4jDriver {
                             }
                             node.put("id", id);
                             node.put("category", label);
-                            node.put("symbolSize", 20);
+                            node.put("symbolSize", 40);
                             System.out.println(node);
                             nodes.add(node);
                         }

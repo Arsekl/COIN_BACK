@@ -12,10 +12,14 @@ import org.neo4j.driver.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.neo4j.core.Neo4jTemplate;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.Neo4jContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -68,8 +72,34 @@ public class Graphtest {
         nodeService.createNode("drama", "cpk");
         relationshipService.createRelationship(0L, 1L, "kg666");
         ResponseVO responseVO = graphService.getGraph();
-        assertThat(responseVO).isNotNull();
+        assertThat(responseVO.getContent()).isNotNull();
 
+    }
+
+    @Test
+    void DeleteAllTest(){
+        String label = "movie";
+        nodeService.createNode(label, "hjm");
+        nodeService.createNode("drama", "cpk");
+        relationshipService.createRelationship(0L, 1L, "kg666");
+        graphService.deleteAll();
+        int num=11;
+        try(Session session = driver.session()){
+            num = session.writeTransaction(tx -> tx.run("match (n) return n").list().size());
+        }
+        assertThat(num).isEqualTo(0);
+    }
+
+    @Test
+    void importGraph(){
+        File f = new File("src/main/resources/cypher.txt");
+        try {
+            MockMultipartFile file = new MockMultipartFile("file", new FileInputStream(f));
+            ResponseVO responseVO = graphService.importGraph(file);
+            assertThat(responseVO.getSuccess()).isEqualTo(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
