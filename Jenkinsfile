@@ -15,8 +15,8 @@ pipeline{
             steps{
                 echo "Mavening..."
                 //maven构建
-//                sh "mvn -Dmaven.test.skip=true clean package"
-                sh "mvn --version"
+                sh "mvn -Dmaven.test.skip=true clean package"
+//                sh "mvn --version"
             }
 
         }
