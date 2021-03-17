@@ -3,6 +3,10 @@
 pipeline{
     agent any
 
+    tools{
+        jdk "jdk11"
+    }
+
     stages{
         stage("Getcode"){
            steps{
@@ -16,7 +20,6 @@ pipeline{
                 echo "Mavening..."
                 //maven构建
 //                sh "mvn -Dmaven.test.skip=true clean package"
-                sh "set JAVA_HOME=/usr/local/jdk-11.0.10"
                 sh "mvn --version"
             }
 
