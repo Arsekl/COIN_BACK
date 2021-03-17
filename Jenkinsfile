@@ -15,9 +15,9 @@ pipeline{
             steps{
                 echo "Mavening..."
                 //maven构建
-                sh "mvn -Dmaven.test.skip=true clean package"
+//                sh "mvn -Dmaven.test.skip=true clean package"
 //                sh "set JAVA_HOME=/usr/local/jdk-11.0.10"
-//                sh "mvn --version"
+                sh "mvn --version"
             }
 
         }
