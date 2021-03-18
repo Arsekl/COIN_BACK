@@ -1,5 +1,6 @@
 package kg666;
 
+import kg666.data.MyNeo4jDriver;
 import kg666.service.GraphService;
 import kg666.service.NodeService;
 import kg666.service.RelationshipService;
@@ -49,6 +50,9 @@ public class Graphtest {
     @Autowired
     GraphService graphService;
 
+    @Autowired
+    MyNeo4jDriver myNeo4jDriver;
+
     @AfterEach
     void cleanUP() {
         try (Session session = driver.session()) {
@@ -81,7 +85,9 @@ public class Graphtest {
         String label = "movie";
         nodeService.createNode(label, "hjm");
         nodeService.createNode("drama", "cpk");
-        relationshipService.createRelationship(0L, 1L, "kg666");
+        long sid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='hjm' return n").get(0).get("id")));
+        long tid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='cpk' return n").get(0).get("id")));
+        relationshipService.createRelationship(sid, tid, "kg666");
         graphService.deleteAll();
         int num=11;
         try(Session session = driver.session()){

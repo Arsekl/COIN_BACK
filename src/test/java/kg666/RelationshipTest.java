@@ -1,7 +1,9 @@
 package kg666;
 
+import kg666.data.MyNeo4jDriver;
 import kg666.service.NodeService;
 import kg666.service.RelationshipService;
+import org.assertj.core.util.diff.myers.MyersDiff;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,9 @@ public class RelationshipTest {
     @Autowired
     NodeService nodeService;
 
+    @Autowired
+    MyNeo4jDriver myNeo4jDriver;
+
     @AfterEach
     void cleanUP(){
         try (Session session = driver.session()) {
@@ -79,12 +84,15 @@ public class RelationshipTest {
         String label = "movie";
         nodeService.createNode(label,"hjm");
         nodeService.createNode(label,"cpk");
-        relationshipService.createRelationship(0L, 1L, "kg666");
-        relationshipService.updateRelationship(0, "kg777");
+        long sid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='hjm' return n").get(0).get("id")));
+        long tid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='cpk' return n").get(0).get("id")));
+        relationshipService.createRelationship(sid, tid, "kg666");
+        long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphRelationShip("match (n)-[r]->(m) return r").get(0).get("id")));
+        relationshipService.updateRelationship(id, "kg777");
         Map<String, Object> node;
         try (Session session = driver.session()) {
             node = session.writeTransaction(tx -> {
-                Result result = tx.run("match (n)-[r]->(m) where id(r)=0 return r");
+                Result result = tx.run("match (n)-[r]->(m) return r");
                 return result.list().get(0).values().get(0).asMap();
             });
         }
@@ -96,8 +104,11 @@ public class RelationshipTest {
         String label = "movie";
         nodeService.createNode(label,"hjm");
         nodeService.createNode(label,"cpk");
-        relationshipService.createRelationship(0L, 1L, "kg666");
-        relationshipService.deleteRelationship(0);
+        long sid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='hjm' return n").get(0).get("id")));
+        long tid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='cpk' return n").get(0).get("id")));
+        relationshipService.createRelationship(sid, tid, "kg666");
+        long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphRelationShip("match (n)-[r]->(m) return r").get(0).get("id")));
+        relationshipService.deleteRelationship(id);
         int num;
         try(Session session = driver.session()){
             num = session.readTransaction(tx -> tx.run("match (n)-[r]->(m) return r").list().size());

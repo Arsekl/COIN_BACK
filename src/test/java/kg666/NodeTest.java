@@ -2,6 +2,7 @@ package kg666;
 
 
 
+import kg666.data.MyNeo4jDriver;
 import kg666.service.NodeService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +44,9 @@ public class NodeTest {
     @Autowired
     Neo4jTemplate neo4jTemplate;
 
+    @Autowired
+    MyNeo4jDriver myNeo4jDriver;
+
     @AfterEach
     void cleanUP(){
         try (Session session = driver.session()) {
@@ -79,11 +83,13 @@ public class NodeTest {
     public void UpdateNodeTest(){
         String label = "movie";
         nodeService.createNode(label,"hjm");
-        nodeService.updateNodeNameById(label, 0L, "cpk");
+        long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) return n").get(0).get("id")));
+        System.out.println(id);
+        nodeService.updateNodeNameById(label, id, "cpk");
         Map<String, Object> node;
         try (Session session = driver.session()) {
             node = session.writeTransaction(tx -> {
-                Result result = tx.run("match (n:movie) where id(n)=0 return n");
+                Result result = tx.run("match (n:movie)  return n");
                 return result.list().get(0).values().get(0).asMap();
             });
         }
