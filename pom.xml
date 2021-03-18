@@ -84,7 +84,7 @@
             <version>0.8.4</version>
             <configuration>
                 <excludes>
-                    <exclude>**/**/*.*</exclude>
+                    <exclude>*/*/*.*</exclude>
 <!--                    <exclude></exclude>-->
                 </excludes>
             </configuration>
