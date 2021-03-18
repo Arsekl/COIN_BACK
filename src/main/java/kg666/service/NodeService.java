@@ -23,13 +23,9 @@ public class NodeService {
         List<HashMap<String, Object>> nodeList;
         String property = "{name:'"+name+"'}";
         try {
-            String cypherSql = String.format("create (n:`%s` %s) return n", label, property);
-            nodeList = driver.getGraphNode(cypherSql);
-            if (nodeList.size() > 0) {
-                return ResponseVO.buildSuccess();
-            } else {
-                return ResponseVO.buildFailure(NODE_CREATE_FAIL);
-            }
+            String cypher = String.format("create (n:`%s` %s) return n", label, property);
+            driver.getGraphNode(cypher);
+            return ResponseVO.buildSuccess();
 
         } catch (Exception e) {
             e.printStackTrace();
