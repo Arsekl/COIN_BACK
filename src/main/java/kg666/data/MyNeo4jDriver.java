@@ -47,6 +47,7 @@ public class MyNeo4jDriver {
                 else return List.of();
             });
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
         return records;
@@ -137,26 +138,26 @@ public class MyNeo4jDriver {
         return relationships;
     }
 
-    public Integer getCount(String cypher) {
-        Integer count = 0;
-        try {
-            List<Record> records = executeCypher(cypher);
-            if (records.size()>0) {
-                Record record = records.get(0);
-                for (Value value : record.values()) {
-                    String t = value.type().name();
-                    if (t.equals("INTEGER")) {
-                        count = Integer.valueOf(value.toString());
-                        break;
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
+//    public Integer getCount(String cypher) {
+//        Integer count = 0;
+//        try {
+//            List<Record> records = executeCypher(cypher);
+//            if (records.size() > 0) {
+//                Record record = records.get(0);
+//                for (Value value : record.values()) {
+//                    String t = value.type().name();
+//                    if (t.equals("INTEGER")) {
+//                        count = Integer.valueOf(value.toString());
+//                        break;
+//                    }
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return count;
+//    }
 
     /**
      * Remove double quotation mark in string which is transformed by JSON
@@ -164,10 +165,10 @@ public class MyNeo4jDriver {
      * @param jsonStr
      * @return result
      */
-    public String getFilterPropertiesJson(String jsonStr) {
-        String propertiesString = jsonStr.replaceAll("\"(\\w+)\"(\\s*:\\s*)", "$1$2");
-        return propertiesString;
-    }
+//    public String getFilterPropertiesJson(String jsonStr) {
+//        String propertiesString = jsonStr.replaceAll("\"(\\w+)\"(\\s*:\\s*)", "$1$2");
+//        return propertiesString;
+//    }
 
 //    /**
 //     * Use reflect to transform Object to Sql of String type

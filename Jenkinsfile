@@ -15,6 +15,21 @@ pipeline{
                checkout scm
            }
         }
+        stage("Test"){
+            steps{
+                echo "Testing..."
+                //maven测试
+                sh "mvn clean test -Dmaven.test.failure.ignore=true"
+            }
+        }
+        stage("Jacoco"){
+            steps{
+                echo "Jacocoing..."
+                //jacoco
+                jacoco()
+            }
+
+        }
         stage("Maven"){
             steps{
                 echo "Mavening..."

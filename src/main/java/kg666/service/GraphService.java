@@ -78,13 +78,13 @@ public class GraphService {
         }
     }
 
-    public ResponseVO getAllLabelCount() {
-        try {
-            String cypher = "match (n) return count (distinct labels(n)) as count";
-            Integer num = driver.getCount(cypher);
-            return ResponseVO.buildSuccess(num);
-        } catch (Exception e) {
-            return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
-        }
-    }
+//    public ResponseVO getAllLabelCount() {
+//        try {
+//            String cypher = "match (n) return count (distinct labels(n)) as count";
+//            Integer num = driver.getCount(cypher);
+//            return ResponseVO.buildSuccess(num);
+//        } catch (Exception e) {
+//            return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
+//        }
+//    }
 }

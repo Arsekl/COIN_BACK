@@ -86,6 +86,7 @@ public class NodeTest {
         long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) return n").get(0).get("id")));
         System.out.println(id);
         nodeService.updateNodeNameById(label, id, "cpk");
+        nodeService.updateNodeNameById(label, 111, "cpk");
         Map<String, Object> node;
         try (Session session = driver.session()) {
             node = session.writeTransaction(tx -> {
@@ -100,7 +101,9 @@ public class NodeTest {
     public void DeleteNodeTest(){
         String label = "movie";
         nodeService.createNode(label,"hjm");
-        nodeService.deleteNode(label, 0);
+        long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) return n").get(0).get("id")));
+        nodeService.deleteNode(label, id);
+        nodeService.deleteNode(label, 111);
         int num;
         try(Session session = driver.session()){
             num = session.readTransaction(tx -> tx.run("match (n) return n").list().size());
