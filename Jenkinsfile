@@ -26,7 +26,7 @@ pipeline{
             steps{
                 echo "Jacocoing..."
                 //jacoco
-                jacoco exclusionPattern: '**/controller/*.class,**/vo/*.class', sourceExclusionPattern: '**/controller/*.java,**/vo/*.java'
+                jacoco exclusionPattern: '**/App.class,**/controller/*.class,**/vo/*.class', sourceExclusionPattern: '**/App.java,**/controller/*.java,**/vo/*.java'
             }
 
         }
