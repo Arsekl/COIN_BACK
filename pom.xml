@@ -84,8 +84,8 @@
             <version>0.8.4</version>
             <configuration>
                 <excludes>
-                    <exclude>kg666/controller/*</exclude>
-                    <exclude>kg666/vo/*</exclude>
+                    <exclude>**/controller/**</exclude>
+                    <exclude>**/vo/**</exclude>
                 </excludes>
             </configuration>
             <executions>
