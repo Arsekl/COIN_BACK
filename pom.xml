@@ -84,8 +84,8 @@
             <version>0.8.4</version>
             <configuration>
                 <excludes>
-                    <exclude>**/controller/**.*</exclude>
-                    <exclude>**/vo/**.*</exclude>
+                    <exclude>**/controller/*.class</exclude>
+                    <exclude>**/vo/*.class</exclude>
                 </excludes>
             </configuration>
             <executions>
