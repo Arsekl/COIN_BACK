@@ -3,6 +3,10 @@
 pipeline{
     agent any
 
+    tools{
+        jdk "jdk11"
+    }
+
     stages{
         stage("Getcode"){
            steps{
@@ -17,6 +21,7 @@ pipeline{
                 //maven构建
                 sh "mvn -Dmaven.test.skip=true clean package"
             }
+
         }
         stage("Upload"){
             steps{
