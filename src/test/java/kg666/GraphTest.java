@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest
-public class Graphtest {
+public class GraphTest {
     private static Neo4jContainer<?> neo4jContainer = new Neo4jContainer<>("neo4j:4.2");
 
     @BeforeAll
