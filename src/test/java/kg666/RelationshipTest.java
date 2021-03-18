@@ -87,8 +87,10 @@ public class RelationshipTest {
         long sid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='hjm' return n").get(0).get("id")));
         long tid = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) where n.name='cpk' return n").get(0).get("id")));
         relationshipService.createRelationship(sid, tid, "kg666");
+        relationshipService.createRelationship(100,101, "kg666");
         long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphRelationShip("match (n)-[r]->(m) return r").get(0).get("id")));
         relationshipService.updateRelationship(id, "kg777");
+        relationshipService.updateRelationship(100, "kg777");
         Map<String, Object> node;
         try (Session session = driver.session()) {
             node = session.writeTransaction(tx -> {
@@ -109,6 +111,7 @@ public class RelationshipTest {
         relationshipService.createRelationship(sid, tid, "kg666");
         long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphRelationShip("match (n)-[r]->(m) return r").get(0).get("id")));
         relationshipService.deleteRelationship(id);
+        relationshipService.deleteRelationship(100);
         int num;
         try(Session session = driver.session()){
             num = session.readTransaction(tx -> tx.run("match (n)-[r]->(m) return r").list().size());
