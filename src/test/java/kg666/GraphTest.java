@@ -97,19 +97,6 @@ public class GraphTest {
         registry.add("spring.neo4j.authentication.password", neo4jContainer::getAdminPassword);
     }
 
-    @Test
-    public void getGraphTest() {
-
-        String label = "movie";
-        NodeVO node0 = new NodeVO(null,null,null,null,null,null, label, "hjm", 0L, 20D);
-        NodeVO node1 = new NodeVO(null,null,null,null,null,null, label, "cpk", 1L, 20D);
-        nodeService.createNode(node0);
-        nodeService.createNode(node1);
-        relationshipService.createRelationship(new RelationshipVO(null,null,null,0L, 1L, 0L, "kg666"));
-        ResponseVO responseVO = graphService.getGraph("temp", 0L);
-        assertThat(responseVO.getContent()).isNotNull();
-
-    }
 
     @Test
     void getNumTest(){
@@ -159,7 +146,7 @@ public class GraphTest {
     }
 
     @Test
-    void saveGraphTest(){
+    void saveAndGetGraphTest(){
         StringBuilder json = new StringBuilder();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream ("src/main/resources/test.json")));
