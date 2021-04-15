@@ -74,16 +74,13 @@ public class MyNeo4jDriver {
                         String typeName = pair.value().type().name();
                         if (typeName.equals("NODE")) {
                             Node noe4jNode = pair.value().asNode();
-                            String id = String.valueOf(noe4jNode.id());
                             String label = noe4jNode.labels().iterator().next();
                             Map<String, Object> map = noe4jNode.asMap();
                             for (Map.Entry<String, Object> entry : map.entrySet()) {
                                 String key = entry.getKey();
                                 node.put(key, entry.getValue());
                             }
-                            node.put("id", id);
                             node.put("category", label);
-                            node.put("symbolSize", 40);
                             System.out.println(node);
                             nodes.add(node);
                         }
@@ -115,17 +112,15 @@ public class MyNeo4jDriver {
                         String typeName = pair.value().type().name();
                         if (typeName.equals("RELATIONSHIP")) {
                             Relationship relationship = pair.value().asRelationship();
-                            String id = String.valueOf(relationship.id());
-                            String sourceId = String.valueOf(relationship.startNodeId());
-                            String targetId = String.valueOf(relationship.endNodeId());
+//                            String sourceId = String.valueOf(relationship.startNodeId());
+//                            String targetId = String.valueOf(relationship.endNodeId());
                             Map<String, Object> map = relationship.asMap();
                             for (Map.Entry<String, Object> entry : map.entrySet()) {
                                 String key = entry.getKey();
                                 res.put(key, entry.getValue());
                             }
-                            res.put("id", id);
-                            res.put("source", sourceId);
-                            res.put("target", targetId);
+//                            res.put("source", sourceId);
+//                            res.put("target", targetId);
                             System.out.println(res);
                             relationships.add(res);
                         }
@@ -138,38 +133,19 @@ public class MyNeo4jDriver {
         return relationships;
     }
 
-//    public Integer getCount(String cypher) {
-//        Integer count = 0;
-//        try {
-//            List<Record> records = executeCypher(cypher);
-//            if (records.size() > 0) {
-//                Record record = records.get(0);
-//                for (Value value : record.values()) {
-//                    String t = value.type().name();
-//                    if (t.equals("INTEGER")) {
-//                        count = Integer.valueOf(value.toString());
-//                        break;
-//                    }
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return count;
-//    }
 
-    /**
-     * Remove double quotation mark in string which is transformed by JSON
-     *
-     * @param jsonStr
-     * @return result
-     */
-//    public String getFilterPropertiesJson(String jsonStr) {
-//        String propertiesString = jsonStr.replaceAll("\"(\\w+)\"(\\s*:\\s*)", "$1$2");
-//        return propertiesString;
-//    }
-
+    public Integer getCount(String cypher){
+        Integer result = null;
+        try {
+            List<Record> records = executeCypher(cypher);
+            Record record = records.get(0);
+            Value value = record.values().get(0);
+            result = value.asInt();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 //    /**
 //     * Use reflect to transform Object to Sql of String type
 //     * @param obj

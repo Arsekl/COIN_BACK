@@ -9,13 +9,16 @@ import kg666.service.GraphService;
 import kg666.vo.NodeVO;
 import kg666.vo.RelationshipVO;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
@@ -28,11 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AppApiTest {
 
-    @Autowired
-    MockMvc mockMvc;
-
-    @MockBean
-    GraphController graphController;
 
     @MockBean
     NodeController nodeController;
@@ -40,19 +38,16 @@ public class AppApiTest {
     @MockBean
     RelationshipController relationshipController;
 
-    @Test
-    void getGraphApi() throws Exception {
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/")).andDo(print());
-    }
+    @MockBean
+    GraphService graphService;
 
     @Test
-    void createNodeApi() throws Exception{
-        NodeVO nodeVO = new NodeVO("movie", "hjm", 0L);
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/node/add")
-                    .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                            .content(JSON.toJSONBytes(nodeVO))).andDo(print()).andExpect(status().isOk());
+    void importGraphApi() throws Exception {
+        GraphController graphController = new GraphController();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(graphController).build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/import").contentType(MediaType.APPLICATION_JSON)
+        .content("{\"nodes\":[{\"symbolSize\":40,\"name\":\"hjm\",\"id\":\"0\",\"category\":\"movie\"},{\"symbolSize\":40,\"name\":\"cpk\",\"id\":\"1\",\"category\":\"drama\"}],\"links\":[{\"name\":\"kg666\",\"id\":\"0\",\"source\":\"0\",\"target\":\"1\"}],\"categories\":[{\"name\":\"movie\"},{\"name\":\"drama\"}]}"))
+        .andDo(print());
     }
+
 }

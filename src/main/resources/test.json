@@ -1,0 +1,113 @@
+{
+  "pic_name":"tmp的副本",
+  "uid":0,
+  "center": [115.97, 29.71],
+  "zoom": 1,
+  "itemStyle":{
+    "color": "blue"
+  },
+  "lineStyle": {
+    "color":"red",
+    "width": 1,
+    "type": "solid",
+    "curveness": 0.5
+  },
+  "label": {
+    "show": false,
+    "fontSize": 12
+  },
+  "tooltip": {
+    "show": false
+  },
+  "nodes": [
+    {
+      "symbolSize": 40,
+      "name": "当事人",
+      "id": "0",
+      "category": 0,
+      "x": 123,
+      "y": 123,
+      "value":123,
+      "symbol": "circle",
+      "itemStyle":{
+        "color": "blue"
+      },
+      "label": {
+        "show": false,
+        "fontSize": 12
+      },
+      "tooltip": {
+        "show": false
+      }
+    },
+    {
+      "symbolSize": 40,
+      "name": "材料",
+      "id": "3",
+      "category": 1,
+      "x": 10,
+      "y": 7
+    },
+    {
+      "symbolSize": 40,
+      "name": "国台办",
+      "id": "1",
+      "category": 2,
+      "x": 77,
+      "y": 88,
+      "value":123,
+      "symbol": "square",
+      "itemStyle":{
+        "color": "red"
+      },
+      "label": {
+        "show": false,
+        "fontSize": 12.5
+      },
+      "tooltip": {
+        "show": false
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "获得",
+      "id": "1",
+      "source": "3",
+      "target": "0",
+      "lineStyle": {
+        "color":"red",
+        "width": 1,
+        "type": "solid",
+        "curveness": 0.5
+      },
+      "label": {
+        "show": false,
+        "fontSize": 12
+      },
+      "tooltip": {
+        "show": false
+      }
+    },
+    {
+      "name": "获得",
+      "id": "15",
+      "source": "0",
+      "target": "1"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Person"
+    },
+    {
+      "name": "material"
+    },
+    {
+      "name": "office"
+    },
+    {
+      "name": "issue"
+    }
+  ]
+}
