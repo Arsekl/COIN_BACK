@@ -22,7 +22,7 @@ public class NodeController {
 
     @PutMapping("/update")
     public ResponseVO updateNode(@RequestBody NodeVO nodeVO) {
-        return nodeService.updateNodeNameById(nodeVO.getId(), nodeVO.getName(), nodeVO.getSymbolSize());
+        return nodeService.updateNodeById(nodeVO.getId(), nodeVO.getName(), nodeVO.getSymbolSize());
     }
 
     @DeleteMapping("/delete")

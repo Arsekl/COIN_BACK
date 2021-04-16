@@ -44,7 +44,7 @@ public class NodeService {
         }
     }
 
-    public ResponseVO updateNodeNameById(long nodeId, String nodeName, Double size) {
+    public ResponseVO updateNodeById(long nodeId, String nodeName, Double size) {
         List<HashMap<String, Object>> nodeList;
         try {
             String cypherSql = String.format("MATCH (n) where n.id=%s set n.name='%s' set n.symbolSize=%s return n", nodeId,

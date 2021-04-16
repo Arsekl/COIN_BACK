@@ -94,8 +94,8 @@ public class NodeTest {
         nodeService.createNode(node0);
 //        long id = Long.parseLong(String.valueOf(myNeo4jDriver.getGraphNode("match (n) return n").get(0).get("id")));
         long id = 0L;
-        nodeService.updateNodeNameById(id, "cpk", 20D);
-        nodeService.updateNodeNameById(111, "cpk", 20D);
+        nodeService.updateNodeById(id, "cpk", 20D);
+        nodeService.updateNodeById(111, "cpk", 20D);
         Map<String, Object> node;
         try (Session session = driver.session()) {
             node = session.writeTransaction(tx -> {

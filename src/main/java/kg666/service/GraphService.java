@@ -45,10 +45,8 @@ public class GraphService {
     public ResponseVO getGraph(String pic_name, Long uid) {
         try {
             DefaultLayout defaultLayout = defaultLayoutMapper.getByName(pic_name, uid);
-            if (defaultLayout==null){
-                return ResponseVO.buildFailure("No such graph!");
-            }
             List<HashMap<String, Object>> nodes = driver.getGraphNode(String.format("match (n) where n.pic_name='%s' and n.uid=%s return n", pic_name, uid));
+            if (nodes.size()==0) return ResponseVO.buildFailure("no such graph!");
             List<HashMap<String, Object>> relationships = driver.getGraphRelationShip(String.format("match (n)-[r]->(m) where n.pic_name='%s' and n.uid=%s return r", pic_name, uid));
             List<String> categoryNames = new ArrayList<>();
             List<HashMap<String, Object>> categories = new ArrayList<>();
