@@ -192,20 +192,26 @@ public class GraphService {
         if (graphVO.getCenter()==null) defaultLayout = new DefaultLayout(graphVO.getPic_name(), graphVO.getUid(), null, null, graphVO.getZoom(), itemStyleVO.getColor(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
         else defaultLayout = new DefaultLayout(graphVO.getPic_name(), graphVO.getUid(), graphVO.getCenter().get(0), graphVO.getCenter().get(1), graphVO.getZoom(), itemStyleVO.getColor(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
         try {
-            defaultLayoutMapper.insert(defaultLayout);
+            if (defaultLayoutMapper.getByName(defaultLayout.getPic_name(), defaultLayout.getUid())!=null)
+                defaultLayoutMapper.update(defaultLayout);
+            else defaultLayoutMapper.insert(defaultLayout);
             for (NodeVO nodeVO : graphVO.getNodes()) {
                     itemStyleVO = nodeVO.getItemStyle();
                     labelVO = nodeVO.getLabel();
                     tooltipVO = nodeVO.getTooltip();
                     NodeLayout nodeLayout = new NodeLayout(nodeVO.getId(), nodeVO.getX(), nodeVO.getY(), itemStyleVO.getColor(), nodeVO.getSymbol(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
-                    nodeLayoutMapper.insert(nodeLayout);
+                    if (nodeLayoutMapper.getById(nodeLayout.getId())!=null)
+                        nodeLayoutMapper.update(nodeLayout);
+                    else nodeLayoutMapper.insert(nodeLayout);
             }
             for (RelationshipVO relationshipVO : graphVO.getLinks()) {
                 lineStyleVO = relationshipVO.getLineStyle();
                 labelVO = relationshipVO.getLabel();
                 tooltipVO = relationshipVO.getTooltip();
                 LinkLayout linkLayout = new LinkLayout(relationshipVO.getId(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
-                linkLayoutMapper.insert(linkLayout);
+                if (linkLayoutMapper.getById(linkLayout.getId())!=null)
+                    linkLayoutMapper.update(linkLayout);
+                else linkLayoutMapper.insert(linkLayout);
             }
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
