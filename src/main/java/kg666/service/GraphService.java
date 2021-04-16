@@ -141,11 +141,11 @@ public class GraphService {
     /**
      * this is a temp method which will be moved in the future
      */
-    public void deleteLayout(){
-        nodeLayoutMapper.deleteAll();
-        linkLayoutMapper.deleteAll();
-        defaultLayoutMapper.deleteAll();
-    }
+//    public void deleteLayout(){
+//        nodeLayoutMapper.deleteAll();
+//        linkLayoutMapper.deleteAll();
+//        defaultLayoutMapper.deleteAll();
+//    }
 
     public ResponseVO importGraphByCypher(MultipartFile file) {
         try {

@@ -38,7 +38,6 @@ public class GraphController {
 
     @PostMapping("/saveLayout")
     public ResponseVO saveLayout(@RequestBody GraphVO graphVO) {
-        graphService.deleteLayout();
         return graphService.saveLayout(graphVO);
     }
 
