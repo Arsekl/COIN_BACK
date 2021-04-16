@@ -3,97 +3,316 @@
   "nodes": [
     {
       "uid": 0,
-      "symbol": "circle",
       "symbolSize": 40.0,
       "name": "当事人",
-      "x": 123.0,
+      "x": 67.648,
       "tooltip": {
-        "show": false
+        "show": true
       },
-      "y": 123.0,
-      "itemStyle": {
-        "color": "blue"
-      },
+      "y": 44.958,
+      "itemStyle": {},
       "id": 0,
       "label": {
-        "show": false,
+        "show": true,
         "fontSize": 12.0
       },
       "category": "Person",
-      "pic_name": "tmp的副本"
+      "pic_name": "temp"
     },
     {
       "uid": 0,
       "symbolSize": 40.0,
-      "name": "材料",
-      "x": 10.0,
+      "name": "委托书",
+      "x": 37.393,
       "tooltip": {
-        "show": false
+        "show": true
       },
-      "y": 7.0,
-      "itemStyle": {
-        "color": "blue"
-      },
-      "id": 3,
+      "y": 55.571,
+      "itemStyle": {},
+      "id": 1,
       "label": {
-        "show": false,
+        "show": true,
         "fontSize": 12.0
       },
       "category": "material",
-      "pic_name": "tmp的副本"
+      "pic_name": "temp"
     },
     {
       "uid": 0,
-      "symbol": "square",
       "symbolSize": 40.0,
-      "name": "国台办",
-      "x": 77.0,
+      "name": "办理材料",
+      "x": 83.453,
       "tooltip": {
-        "show": false
+        "show": true
       },
-      "y": 88.0,
-      "itemStyle": {
-        "color": "red"
-      },
-      "id": 1,
+      "y": 78.07,
+      "itemStyle": {},
+      "id": 2,
       "label": {
-        "show": false,
-        "fontSize": 12.5
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "material",
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "办结材料",
+      "x": 82.857,
+      "tooltip": {
+        "show": true
+      },
+      "y": 27.065,
+      "itemStyle": {},
+      "id": 3,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "material",
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "公证机关",
+      "x": 74.037,
+      "tooltip": {
+        "show": true
+      },
+      "y": 36.693,
+      "itemStyle": {},
+      "id": 4,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
       },
       "category": "office",
-      "pic_name": "tmp的副本"
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "出具机关",
+      "x": 51.631,
+      "tooltip": {
+        "show": true
+      },
+      "y": 40.828,
+      "itemStyle": {},
+      "id": 5,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "office",
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "办理机关",
+      "x": 74.6,
+      "tooltip": {
+        "show": true
+      },
+      "y": 38.744,
+      "itemStyle": {},
+      "id": 6,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "office",
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "办理事项",
+      "x": 37.579,
+      "tooltip": {
+        "show": true
+      },
+      "y": 21.313,
+      "itemStyle": {},
+      "id": 7,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "issue",
+      "pic_name": "temp"
+    },
+    {
+      "uid": 0,
+      "symbolSize": 40.0,
+      "name": "推荐事项",
+      "x": 30.36,
+      "tooltip": {
+        "show": true
+      },
+      "y": 38.625,
+      "itemStyle": {},
+      "id": 8,
+      "label": {
+        "show": true,
+        "fontSize": 12.0
+      },
+      "category": "issue",
+      "pic_name": "temp"
     }
   ],
   "lineStyle": {
-    "curveness": 0.5,
-    "color": "red",
-    "width": 1.0,
+    "curveness": 1.0,
+    "color": "source",
+    "width": 2.0,
     "type": "solid"
   },
-  "center": [
-    115.97,
-    29.71
-  ],
   "tooltip": {
-    "show": false
+    "show": true
   },
-  "itemStyle": {
-    "color": "blue"
-  },
+  "itemStyle": {},
   "zoom": 1.0,
   "links": [
     {
       "lineStyle": {
-        "curveness": 0.5,
-        "color": "red",
-        "width": 1.0,
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "办理",
+      "tooltip": {
+        "show": true
+      },
+      "id": 17,
+      "source": 0,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 8
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "办理",
+      "tooltip": {
+        "show": true
+      },
+      "id": 15,
+      "source": 0,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 7
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "提交",
+      "tooltip": {
+        "show": true
+      },
+      "id": 5,
+      "source": 0,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 2
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "提交",
+      "tooltip": {
+        "show": true
+      },
+      "id": 3,
+      "source": 0,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 1
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "规则标签",
+      "tooltip": {
+        "show": true
+      },
+      "source": 0,
+      "id": 1,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 0
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "dotted"
+      },
+      "name": "dot",
+      "tooltip": {
+        "show": true
+      },
+      "id": 13,
+      "source": 1,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 7
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "dotted"
+      },
+      "name": "dot",
+      "tooltip": {
+        "show": true
+      },
+      "id": 12,
+      "source": 2,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 7
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
         "type": "solid"
       },
       "name": "获得",
       "tooltip": {
-        "show": false
+        "show": true
       },
-      "id": 1,
+      "id": 0,
       "source": 3,
       "label": {
         "show": false,
@@ -102,10 +321,184 @@
       "target": 0
     },
     {
-      "name": "获得",
-      "id": 15,
-      "source": 0,
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "规则标签",
+      "tooltip": {
+        "show": true
+      },
+      "source": 4,
+      "id": 9,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 4
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "公证",
+      "tooltip": {
+        "show": true
+      },
+      "id": 2,
+      "source": 4,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
       "target": 1
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "规则标签",
+      "tooltip": {
+        "show": true
+      },
+      "source": 5,
+      "id": 10,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 5
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "开具",
+      "tooltip": {
+        "show": true
+      },
+      "id": 4,
+      "source": 5,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 2
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "履行",
+      "tooltip": {
+        "show": true
+      },
+      "id": 16,
+      "source": 6,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 8
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "履行",
+      "tooltip": {
+        "show": true
+      },
+      "id": 14,
+      "source": 6,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 7
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "规则标签",
+      "tooltip": {
+        "show": true
+      },
+      "source": 6,
+      "id": 11,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 6
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "solid"
+      },
+      "name": "生成",
+      "tooltip": {
+        "show": true
+      },
+      "id": 8,
+      "source": 6,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 3
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "dotted"
+      },
+      "name": "dot",
+      "tooltip": {
+        "show": true
+      },
+      "id": 7,
+      "source": 7,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 3
+    },
+    {
+      "lineStyle": {
+        "curveness": 1.0,
+        "width": 2.0,
+        "type": "dotted"
+      },
+      "name": "dot",
+      "tooltip": {
+        "show": true
+      },
+      "id": 6,
+      "source": 8,
+      "label": {
+        "show": false,
+        "fontSize": 12.0
+      },
+      "target": 3
     }
   ],
   "label": {
@@ -121,7 +514,10 @@
     },
     {
       "name": "office"
+    },
+    {
+      "name": "issue"
     }
   ],
-  "pic_name": "tmp的副本"
+  "pic_name": "temp"
 }

@@ -105,7 +105,8 @@ public class GraphService {
         List<Double> center = new ArrayList<>();
         center.add(defaultLayout.getX());
         center.add(defaultLayout.getY());
-        result.put("center", center);
+        if (center.get(0)!=null && center.get(1)!=null)
+            result.put("center", center);
         result.put("zoom", defaultLayout.getZoom());
         HashMap<String, Object> itemStyle = new HashMap<>();
         itemStyle.put("color", defaultLayout.getItem_color());
@@ -185,23 +186,19 @@ public class GraphService {
         LineStyleVO lineStyleVO = graphVO.getLineStyle();
         LabelVO labelVO = graphVO.getLabel();
         TooltipVO tooltipVO = graphVO.getTooltip();
-        DefaultLayout defaultLayout = new DefaultLayout(graphVO.getPic_name(), graphVO.getUid(), graphVO.getCenter().get(0), graphVO.getCenter().get(1), graphVO.getZoom(), itemStyleVO.getColor(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
+        DefaultLayout defaultLayout;
+        if (graphVO.getCenter()==null) defaultLayout = new DefaultLayout(graphVO.getPic_name(), graphVO.getUid(), null, null, graphVO.getZoom(), itemStyleVO.getColor(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
+        else defaultLayout = new DefaultLayout(graphVO.getPic_name(), graphVO.getUid(), graphVO.getCenter().get(0), graphVO.getCenter().get(1), graphVO.getZoom(), itemStyleVO.getColor(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
         try {
             defaultLayoutMapper.insert(defaultLayout);
             for (NodeVO nodeVO : graphVO.getNodes()) {
-                if (nodeVO.getSymbol() == null) {
-                    NodeLayout nodeLayout = new NodeLayout(nodeVO.getId(), nodeVO.getX(), nodeVO.getY(), graphVO.getItemStyle().getColor(), null, graphVO.getLabel().getShow(), graphVO.getLabel().getFontSize(), graphVO.getTooltip().getShow());
-                    nodeLayoutMapper.insert(nodeLayout);
-                } else {
                     itemStyleVO = nodeVO.getItemStyle();
                     labelVO = nodeVO.getLabel();
                     tooltipVO = nodeVO.getTooltip();
                     NodeLayout nodeLayout = new NodeLayout(nodeVO.getId(), nodeVO.getX(), nodeVO.getY(), itemStyleVO.getColor(), nodeVO.getSymbol(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
                     nodeLayoutMapper.insert(nodeLayout);
-                }
             }
             for (RelationshipVO relationshipVO : graphVO.getLinks()) {
-                if (relationshipVO.getLabel() == null) continue;
                 lineStyleVO = relationshipVO.getLineStyle();
                 labelVO = relationshipVO.getLabel();
                 tooltipVO = relationshipVO.getTooltip();

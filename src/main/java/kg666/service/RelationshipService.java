@@ -107,7 +107,6 @@ public class RelationshipService {
         for (HashMap<String, Object> relationship : relationships){
             long id = (Long) relationship.get("id");
             linkLayout = mapper.getById(id);
-            if (linkLayout!=null){
                 HashMap<String, Object> style = new HashMap<>();
                 style.put("color", linkLayout.getColor());
                 style.put("width", linkLayout.getWidth());
@@ -121,7 +120,6 @@ public class RelationshipService {
                 HashMap<String, Object> tooltip = new HashMap<>();
                 tooltip.put("show", linkLayout.getTooltip_show());
                 relationship.put("tooltip", tooltip);
-            }
         }
     }
 }

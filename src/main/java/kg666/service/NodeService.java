@@ -112,7 +112,6 @@ public class NodeService {
         for (HashMap<String, Object> node : nodes) {
             long id = (Long) node.get("id");
             nodeLayout = mapper.getById(id);
-            if (nodeLayout!=null) {
                 node.put("x", nodeLayout.getX());
                 node.put("y", nodeLayout.getY());
                 node.put("symbol", nodeLayout.getSymbol());
@@ -126,7 +125,6 @@ public class NodeService {
                 HashMap<String, Object> tooltip = new HashMap<>();
                 tooltip.put("show", nodeLayout.getTooltip_show());
                 node.put("tooltip", tooltip);
-            }
         }
     }
 

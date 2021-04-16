@@ -163,7 +163,8 @@ public class GraphTest {
         GraphVO graphVO = JSON.parseObject(json.toString(), GraphVO.class);
         graphService.saveGraph(graphVO);
         graphService.saveLayout(graphVO);
-        graphService.getGraph("tmp的副本", 0L);
+        graphService.getGraph("temp", 0L);
+        graphService.getGraph("tmp", 0L);
     }
 
     @Test
