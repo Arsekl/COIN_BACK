@@ -184,7 +184,7 @@ public class GraphTest {
         }
         GraphVO graphVO = JSON.parseObject(json.toString(), GraphVO.class);
         graphService.saveLayout(graphVO);
-        assertThat(nodeLayoutMapper.getAll().size()).isEqualTo(3);
-        assertThat(linkLayoutMapper.getAll().size()).isEqualTo(1);
+        assertThat(nodeLayoutMapper.getAll().size()).isEqualTo(9);
+        assertThat(linkLayoutMapper.getAll().size()).isEqualTo(18);
     }
 }

@@ -63,10 +63,12 @@ public class GraphService {
             HashMap<String, Object> result = new HashMap<>();
             result.put("pic_name", pic_name);
             result.put("uid", uid);
-            addLayoutInfo(defaultLayout, result);
-            nodeService.addLayoutInfo(nodes);
+            if (defaultLayout!=null) {
+                addLayoutInfo(defaultLayout, result);
+                nodeService.addLayoutInfo(nodes);
+                relationshipService.addLayoutInfo(relationships);
+            }
             result.put("nodes", nodes);
-            relationshipService.addLayoutInfo(relationships);
             result.put("links", relationships);
             result.put("categories", categories);
             System.out.println(JSON.toJSONString(result));
