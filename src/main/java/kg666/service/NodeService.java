@@ -27,6 +27,16 @@ public class NodeService {
     private NodeLayoutMapper mapper;
 
 
+    String createCypher(NodeVO nodeVO) {
+        String name = nodeVO.getName();
+        String label = nodeVO.getCategory();
+        Double size = nodeVO.getSymbolSize();
+        Long id = nodeVO.getId();
+        String property = "{name:'"+name+"', id:" + id +", symbolSize:" + size +"}";
+        String cypher = String.format("create (n%s:`%s` %s) ", id, label, property);
+        return cypher;
+    }
+
     public ResponseVO createNode(NodeVO nodeVO) {
         String name = nodeVO.getName();
         String label = nodeVO.getCategory();

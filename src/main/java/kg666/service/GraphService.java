@@ -167,16 +167,21 @@ public class GraphService {
 
     public ResponseVO saveGraph(GraphVO graphVO) {
         List<Map<String, String>> labels = graphVO.getCategories();
+        StringBuilder cypher = new StringBuilder();
         try {
             for (NodeVO nodeVO : graphVO.getNodes()) {
                 int index = Integer.parseInt(nodeVO.getCategory());
                 nodeVO.setCategory(labels.get(index).get("name"));
-                nodeService.createNode(nodeVO);
+                cypher.append(nodeService.createCypher(nodeVO));
             }
-            driver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", graphVO.getPic_name(), graphVO.getUid()));
             for (RelationshipVO relationshipVO : graphVO.getLinks()) {
-                relationshipService.createRelationship(relationshipVO);
+                cypher.append(relationshipService.createCypher(relationshipVO));
             }
+            driver.executeCypher(cypher.toString());
+            System.out.println(cypher.toString());
+            cypher.setLength(0);
+            cypher.append(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", graphVO.getPic_name(), graphVO.getUid()));
+            driver.executeCypher(cypher.toString());
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);

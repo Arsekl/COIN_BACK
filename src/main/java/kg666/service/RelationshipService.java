@@ -25,6 +25,15 @@ public class RelationshipService {
     @Autowired
     private LinkLayoutMapper mapper;
 
+    String createCypher(RelationshipVO relationshipVO) {
+        String name = relationshipVO.getName();
+        Long sourceId = relationshipVO.getSource();
+        Long targetId = relationshipVO.getTarget();
+        Long id = relationshipVO.getId();
+        String property = "{name:'"+name+"', id:" + id + ", source:" + sourceId + ", target:" + targetId + "}";
+        return String.format("create (n%s)-[:re %s ]->(n%s) ", sourceId, property, targetId);
+    }
+
     public ResponseVO createRelationship(RelationshipVO relationshipVO) {
         String name = relationshipVO.getName();
         Long sourceId = relationshipVO.getSource();
