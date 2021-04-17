@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class LinkLayout {
     private long id;
+    private String pic_name;
+    private long uid;
     private String color;
     private double width;
     private String type;

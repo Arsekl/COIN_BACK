@@ -65,8 +65,8 @@ public class GraphService {
             result.put("uid", uid);
             if (defaultLayout!=null) {
                 addLayoutInfo(defaultLayout, result);
-                nodeService.addLayoutInfo(nodes);
-                relationshipService.addLayoutInfo(relationships);
+                nodeService.addLayoutInfo(nodes,pic_name, uid);
+                relationshipService.addLayoutInfo(relationships,pic_name, uid);
             }
             result.put("nodes", nodes);
             result.put("links", relationships);
@@ -172,16 +172,13 @@ public class GraphService {
             for (NodeVO nodeVO : graphVO.getNodes()) {
                 int index = Integer.parseInt(nodeVO.getCategory());
                 nodeVO.setCategory(labels.get(index).get("name"));
-                cypher.append(nodeService.createCypher(nodeVO));
+                cypher.append(nodeService.createCypher(nodeVO, graphVO.getPic_name(), graphVO.getUid()));
             }
             for (RelationshipVO relationshipVO : graphVO.getLinks()) {
                 cypher.append(relationshipService.createCypher(relationshipVO));
             }
             driver.executeCypher(cypher.toString());
             System.out.println(cypher.toString());
-            cypher.setLength(0);
-            cypher.append(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", graphVO.getPic_name(), graphVO.getUid()));
-            driver.executeCypher(cypher.toString());
             return ResponseVO.buildSuccess();
         } catch (Exception e) {
             return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
@@ -204,8 +201,8 @@ public class GraphService {
                     itemStyleVO = nodeVO.getItemStyle();
                     labelVO = nodeVO.getLabel();
                     tooltipVO = nodeVO.getTooltip();
-                    NodeLayout nodeLayout = new NodeLayout(nodeVO.getId(), nodeVO.getX(), nodeVO.getY(), itemStyleVO.getColor(), nodeVO.getSymbol(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
-                    if (nodeLayoutMapper.getById(nodeLayout.getId())!=null)
+                    NodeLayout nodeLayout = new NodeLayout(nodeVO.getId(),  graphVO.getPic_name(), graphVO.getUid(), nodeVO.getX(), nodeVO.getY(), itemStyleVO.getColor(), nodeVO.getSymbol(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
+                    if (nodeLayoutMapper.getById(nodeLayout.getId(), graphVO.getUid(), graphVO.getPic_name())!=null)
                         nodeLayoutMapper.update(nodeLayout);
                     else nodeLayoutMapper.insert(nodeLayout);
             }
@@ -213,8 +210,8 @@ public class GraphService {
                 lineStyleVO = relationshipVO.getLineStyle();
                 labelVO = relationshipVO.getLabel();
                 tooltipVO = relationshipVO.getTooltip();
-                LinkLayout linkLayout = new LinkLayout(relationshipVO.getId(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
-                if (linkLayoutMapper.getById(linkLayout.getId())!=null)
+                LinkLayout linkLayout = new LinkLayout(relationshipVO.getId(), graphVO.getPic_name(), graphVO.getUid(), lineStyleVO.getColor(), lineStyleVO.getWidth(), lineStyleVO.getType(), lineStyleVO.getCurveness(), labelVO.getShow(), labelVO.getFontSize(), tooltipVO.getShow());
+                if (linkLayoutMapper.getById(linkLayout.getId(), graphVO.getUid(), graphVO.getPic_name())!=null)
                     linkLayoutMapper.update(linkLayout);
                 else linkLayoutMapper.insert(linkLayout);
             }

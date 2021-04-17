@@ -15,20 +15,20 @@ public class NodeController {
     @Autowired
     NodeService nodeService;
 
-    @PostMapping("/add")
-    public ResponseVO addNode(@RequestBody NodeVO nodeVO) {
-        return nodeService.createNode(nodeVO);
-    }
-
-    @PutMapping("/update")
-    public ResponseVO updateNode(@RequestBody NodeVO nodeVO) {
-        return nodeService.updateNodeById(nodeVO.getId(), nodeVO.getName(), nodeVO.getSymbolSize());
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseVO deleteNode(@RequestBody NodeVO nodeVO) {
-        return nodeService.deleteNode(nodeVO.getId());
-    }
+//    @PostMapping("/add")
+//    public ResponseVO addNode(@RequestBody NodeVO nodeVO) {
+//        return nodeService.createNode(nodeVO);
+//    }
+//
+//    @PutMapping("/update")
+//    public ResponseVO updateNode(@RequestBody NodeVO nodeVO) {
+//        return nodeService.updateNodeById(nodeVO.getId(), nodeVO.getName(), nodeVO.getSymbolSize());
+//    }
+//
+//    @DeleteMapping("/delete")
+//    public ResponseVO deleteNode(@RequestBody NodeVO nodeVO) {
+//        return nodeService.deleteNode(nodeVO.getId());
+//    }
 
     @GetMapping("/find")
     public ResponseVO findNodes(@RequestBody NodeFindVO nodeFindVO){

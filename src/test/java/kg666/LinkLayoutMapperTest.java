@@ -53,13 +53,13 @@ class LinkLayoutMapperTest {
 
     @Test
     void getById() {
-        LinkLayout result = mapper.getById(0);
+        LinkLayout result = mapper.getById(0,0, "test");
         assertThat(result.getId()).isEqualTo(0);
     }
 
     @Test
     void insert() {
-        LinkLayout nodeLayout = new LinkLayout(1, "blue", 2.0, "dotted", 0.5,false, 7, false);
+        LinkLayout nodeLayout = new LinkLayout(1, "test", 0,"blue", 2.0, "dotted", 0.5,false, 7, false);
         mapper.insert(nodeLayout);
         List<LinkLayout> result = mapper.getAll();
         System.out.println(result.get(1));
@@ -68,9 +68,9 @@ class LinkLayoutMapperTest {
 
     @Test
     void update() {
-        LinkLayout nodeLayout = new LinkLayout(0, "yellow", 2.0, "dotted", 0.5,false, 7, false);
+        LinkLayout nodeLayout = new LinkLayout(0, "test", 0, "yellow", 2.0, "dotted", 0.5,false, 7, false);
         mapper.update(nodeLayout);
-        LinkLayout result = mapper.getById(0);
+        LinkLayout result = mapper.getById(0,0, "test");
         System.out.println(result);
         assertThat(result.getColor().equals("yellow")).isEqualTo(true);
     }

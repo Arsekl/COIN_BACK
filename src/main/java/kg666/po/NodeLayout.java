@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Immutable;
 @ToString
 public class NodeLayout {
     private long id;
+    private String pic_name;
+    private long uid;
     private double x;
     private double y;
     private String color;

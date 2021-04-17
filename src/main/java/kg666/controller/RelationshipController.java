@@ -15,20 +15,20 @@ public class RelationshipController {
     @Autowired
     RelationshipService relationshipService;
 
-    @PostMapping("/add")
-    public ResponseVO addRelationship(@RequestBody RelationshipVO RelationshipVO) {
-        return relationshipService.createRelationship(RelationshipVO);
-    }
-
-    @PutMapping("/update")
-    public ResponseVO updateRelationship(@RequestBody RelationshipVO RelationshipVO) {
-        return relationshipService.updateRelationship(RelationshipVO.getId(), RelationshipVO.getName());
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseVO deleteRelationship(@RequestBody RelationshipVO RelationshipVO) {
-        return relationshipService.deleteRelationship(RelationshipVO.getId());
-    }
+//    @PostMapping("/add")
+//    public ResponseVO addRelationship(@RequestBody RelationshipVO RelationshipVO) {
+//        return relationshipService.createRelationship(RelationshipVO);
+//    }
+//
+//    @PutMapping("/update")
+//    public ResponseVO updateRelationship(@RequestBody RelationshipVO RelationshipVO) {
+//        return relationshipService.updateRelationship(RelationshipVO.getId(), RelationshipVO.getName());
+//    }
+//
+//    @DeleteMapping("/delete")
+//    public ResponseVO deleteRelationship(@RequestBody RelationshipVO RelationshipVO) {
+//        return relationshipService.deleteRelationship(RelationshipVO.getId());
+//    }
 
     @GetMapping("/find")
     public ResponseVO findRelationships(@RequestBody RelationshipFindVO relationshipFindVO){

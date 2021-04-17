@@ -111,11 +111,11 @@ public class RelationshipService {
         }
     }
 
-    public void addLayoutInfo(List<HashMap<String, Object>> relationships) {
+    public void addLayoutInfo(List<HashMap<String, Object>> relationships, String pic_name, Long uid) {
         LinkLayout linkLayout;
         for (HashMap<String, Object> relationship : relationships){
             long id = (Long) relationship.get("id");
-            linkLayout = mapper.getById(id);
+            linkLayout = mapper.getById(id,uid,pic_name);
             if (linkLayout!=null){
                 HashMap<String, Object> style = new HashMap<>();
                 style.put("color", linkLayout.getColor());

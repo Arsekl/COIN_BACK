@@ -27,12 +27,12 @@ public class NodeService {
     private NodeLayoutMapper mapper;
 
 
-    String createCypher(NodeVO nodeVO) {
+    String createCypher(NodeVO nodeVO, String pic_name, Long uid) {
         String name = nodeVO.getName();
         String label = nodeVO.getCategory();
         Double size = nodeVO.getSymbolSize();
         Long id = nodeVO.getId();
-        String property = "{name:'"+name+"', id:" + id +", symbolSize:" + size +"}";
+        String property = "{name:'"+name+"', id:" + id +", symbolSize:" + size + ", pic_name:'" + pic_name + "', uid:" + uid + "}";
         String cypher = String.format("create (n%s:`%s` %s) ", id, label, property);
         return cypher;
     }
@@ -117,11 +117,11 @@ public class NodeService {
         }
     }
 
-    public void addLayoutInfo(List<HashMap<String, Object>> nodes){
+    public void addLayoutInfo(List<HashMap<String, Object>> nodes, String pic_name, Long uid){
         NodeLayout nodeLayout;
         for (HashMap<String, Object> node : nodes) {
             long id = (Long) node.get("id");
-            nodeLayout = mapper.getById(id);
+            nodeLayout = mapper.getById(id, uid, pic_name);
             if (nodeLayout!=null) {
                 node.put("x", nodeLayout.getX());
                 node.put("y", nodeLayout.getY());
