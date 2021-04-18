@@ -30,7 +30,7 @@ public class NodeController {
 //        return nodeService.deleteNode(nodeVO.getId());
 //    }
 
-    @GetMapping("/find")
+    @PostMapping("/find")
     public ResponseVO findNodes(@RequestBody NodeFindVO nodeFindVO){
         return nodeService.findNodes(nodeFindVO);
     }

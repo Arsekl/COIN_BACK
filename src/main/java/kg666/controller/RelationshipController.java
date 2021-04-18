@@ -30,7 +30,7 @@ public class RelationshipController {
 //        return relationshipService.deleteRelationship(RelationshipVO.getId());
 //    }
 
-    @GetMapping("/find")
+    @PostMapping("/find")
     public ResponseVO findRelationships(@RequestBody RelationshipFindVO relationshipFindVO){
         return relationshipService.findRelationships(relationshipFindVO);
     }
