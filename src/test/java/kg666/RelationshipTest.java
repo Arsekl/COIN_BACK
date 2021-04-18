@@ -136,7 +136,7 @@ public class RelationshipTest {
 
     @Test
     public void FindRelationshipsTest(){
-        NodeVO node0 = new NodeVO(null,null,null,null,null,null,"movie", "hjm0", 0L, 20D);
+        NodeVO node0 = new NodeVO(null,null,null,null,null,null,"movie", "Hjm0", 0L, 20D);
         NodeVO node1 = new NodeVO(null,null,null,null,null,null,"movie", "hjm1", 1L, 40D);
         NodeVO node3 = new NodeVO(null,null,null,null,null,null,"drama", "hj2", 2L, 20D);
         nodeService.createNode(node0);

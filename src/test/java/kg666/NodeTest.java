@@ -123,7 +123,7 @@ public class NodeTest {
 
     @Test
     public void findNodesTest(){
-        NodeFindVO nodeF0 = new NodeFindVO("temp", 0L, "movie", "hjm", null, null);
+        NodeFindVO nodeF0 = new NodeFindVO("temp", 0L, "movie", "Hjm", null, null);
         NodeFindVO nodeF1 = new NodeFindVO("temp", 0L,"movie", null, null, null);
         NodeFindVO nodeF2 = new NodeFindVO("temp", 0L,null, "hjm", 15D, 25D);
         NodeFindVO nodeF3 = new NodeFindVO("temp", 0L,null, null, 15D, 25D);

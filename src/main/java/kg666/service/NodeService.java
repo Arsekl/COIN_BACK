@@ -106,7 +106,7 @@ public class NodeService {
             StringBuilder cypher = new StringBuilder(String.format("MATCH (n) where n.symbolSize>=%s and n.symbolSize<=%s and n.pic_name='%s' and n.uid=%s ", lowerBound, upperBound, pic_name, uid));
             String labelCypher = String.format("MATCH (n:`%s`) ", label);
             if (label != null) cypher.append(labelCypher);
-            String nameCypher = String.format("MATCH (n) where n.name=~'.*%s.*' ", name);
+            String nameCypher = String.format("MATCH (n) where n.name=~'(?i).*%s.*' ", name);
             if (name != null) cypher.append(nameCypher);
             cypher.append("return n");
             result = driver.getGraphNode(cypher.toString());
