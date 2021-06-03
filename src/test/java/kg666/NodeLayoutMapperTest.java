@@ -24,7 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class NodeLayoutMapperTest {
 
     @ClassRule
-    public static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8.0").withInitScript("db/layout.sql");
+    public static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8.0")
+            .withInitScript("db/kg666.sql");
 
     @Autowired
     NodeLayoutMapper mapper;

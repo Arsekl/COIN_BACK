@@ -1,0 +1,14 @@
+0,match (n:Movie{name='nm'}) return n. rating
+1,match (n:Movie{name='nm'}) return n. releasedate
+2,match (n:Movie{name='nm'})-[r:is]->(m) return m
+3,match (n:Movie{name='nm'}) return n.url
+4,match (p:Person)-[r:actedin]->(m:Movie{name='nm'}) retrurn p
+5,match (p:Person{name='nnt'}) return p.biography
+6,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie)-[s:is]->(g:Genre{name='ng'}) return m
+7,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie) return m
+8,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie) where m.rating>x return m
+9,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie) where m.rating<x return m
+10,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie)-[s:is]->(g:Genre) return g
+11,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie) match (p:Person{name='nnr'})-[r:actedin]->(m:Movie) return m
+12,match (p:Person{name='nnt'})-[r:actedin]->(m:Movie) return count(m)
+13,match (p:Person{name='nnt'}) return p.birthplace

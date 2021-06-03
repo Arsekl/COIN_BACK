@@ -31,7 +31,6 @@ public class GraphController {
 
     @PostMapping("/save")
     public ResponseVO saveGraph(@RequestBody GraphVO graphVO) {
-        //temp delete, will be modified
         graphService.deleteAll(graphVO.getPic_name(),graphVO.getUid());
         return graphService.saveGraph(graphVO);
     }

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class DefaultLayoutMapperTest {
     @ClassRule
-    public static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8.0").withInitScript("db/layout.sql");
+    public static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:8.0").withInitScript("db/kg666.sql");
 
     @Autowired
     DefaultLayoutMapper mapper;

@@ -70,19 +70,19 @@ public class MyNeo4jDriver {
                      */
                     List<Pair<String, Value>> fields = record.fields();
                     for (Pair<String, Value> pair : fields) {
-                        HashMap<String, Object> node = new HashMap<>();
+                        HashMap<String, Object> res = new HashMap<>();
                         String typeName = pair.value().type().name();
                         if (typeName.equals("NODE")) {
-                            Node noe4jNode = pair.value().asNode();
-                            String label = noe4jNode.labels().iterator().next();
-                            Map<String, Object> map = noe4jNode.asMap();
+                            Node node = pair.value().asNode();
+                            String label = node.labels().iterator().next();
+                            Map<String, Object> map = node.asMap();
                             for (Map.Entry<String, Object> entry : map.entrySet()) {
                                 String key = entry.getKey();
-                                node.put(key, entry.getValue());
+                                res.put(key, entry.getValue());
                             }
-                            node.put("category", label);
-                            System.out.println(node);
-                            nodes.add(node);
+                            res.put("category", label);
+                            System.out.println(res);
+                            nodes.add(res);
                         }
                     }
                 }
@@ -112,15 +112,13 @@ public class MyNeo4jDriver {
                         String typeName = pair.value().type().name();
                         if (typeName.equals("RELATIONSHIP")) {
                             Relationship relationship = pair.value().asRelationship();
-//                            String sourceId = String.valueOf(relationship.startNodeId());
-//                            String targetId = String.valueOf(relationship.endNodeId());
+//                            String label = relationship.type();
                             Map<String, Object> map = relationship.asMap();
                             for (Map.Entry<String, Object> entry : map.entrySet()) {
                                 String key = entry.getKey();
                                 res.put(key, entry.getValue());
                             }
-//                            res.put("source", sourceId);
-//                            res.put("target", targetId);
+//                            res.put("type", label);
                             System.out.println(res);
                             relationships.add(res);
                         }
