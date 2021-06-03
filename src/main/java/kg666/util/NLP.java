@@ -8,6 +8,7 @@ import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import org.aopalliance.reflect.Class;
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -17,7 +18,10 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.util.*;
@@ -267,10 +271,10 @@ public class NLP {
 
     private void addTrainItem(List<LabeledPoint> trainList, String patternPath) throws Exception {
         List<String> list = new ArrayList<>();
-        File baseFile = new ClassPathResource(patternPath).getFile();
-        File[] files = baseFile.listFiles();
-        for (File file : files) {
-                list.add(patternPath+"/"+file.getName());
+        Resource[] resources = new PathMatchingResourcePatternResolver().getResources(ResourceUtils.CLASSPATH_URL_PREFIX+patternPath+"/*.txt");
+        for(Resource resource : resources){
+            String fileName = resource.getFilename();
+            list.add(patternPath+"/"+fileName);
         }
         String[] sentences;
         Collections.sort(list);
