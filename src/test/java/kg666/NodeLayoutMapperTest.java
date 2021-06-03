@@ -53,13 +53,13 @@ class NodeLayoutMapperTest {
 
     @Test
     void getById() {
-        NodeLayout result = mapper.getById(0, 0, "test");
+        NodeLayout result = mapper.getById(0, 1, "test");
         assertThat(result.getId()).isEqualTo(0);
     }
 
     @Test
     void insert() {
-        NodeLayout nodeLayout = new NodeLayout(1, "test", 0, 0.0, 2.0, "blue", "circle",false, 7.0, false);
+        NodeLayout nodeLayout = new NodeLayout(1, "test", 1, 0.0, 2.0, "blue", "circle",false, 7.0, false);
         mapper.insert(nodeLayout);
         List<NodeLayout> result = mapper.getAll();
         System.out.println(result.get(1));
@@ -68,9 +68,9 @@ class NodeLayoutMapperTest {
 
     @Test
     void update() {
-        NodeLayout nodeLayout = new NodeLayout(0, "test", 0,0.0, 2.0, "blue", "circle",false, 7.0, false);
+        NodeLayout nodeLayout = new NodeLayout(0, "test", 1,0.0, 2.0, "blue", "circle",false, 7.0, false);
         mapper.update(nodeLayout);
-        NodeLayout result = mapper.getById(0, 0, "test");
+        NodeLayout result = mapper.getById(0, 1, "test");
         System.out.println(result);
         assertThat(result.getColor().equals("blue")).isEqualTo(true);
     }

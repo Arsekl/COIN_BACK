@@ -51,13 +51,13 @@ class DefaultLayoutMapperTest {
 
     @Test
     void getByName() {
-        DefaultLayout result = mapper.getByName("temp", 0L);
-        assertThat(result.getUid()).isEqualTo(0);
+        DefaultLayout result = mapper.getByName("temp", 1L);
+        assertThat(result.getUid()).isEqualTo(1);
     }
 
     @Test
     void insert() {
-        DefaultLayout defaultLayout = new DefaultLayout("hjm", 0L ,10.0, 19.78, 0.8, "yellow", "red", 2.0, "dotted", 0.2, true, 14.0, true);
+        DefaultLayout defaultLayout = new DefaultLayout("hjm", 1L ,10.0, 19.78, 0.8, "yellow", "red", 2.0, "dotted", 0.2, true, 14.0, true);
         mapper.insert(defaultLayout);
         List<DefaultLayout> result = mapper.getAll();
         System.out.println(result.get(0));
@@ -66,9 +66,9 @@ class DefaultLayoutMapperTest {
 
     @Test
     void update() {
-        DefaultLayout defaultLayout = new DefaultLayout("temp", 0L ,11.0, 20.23, 0.8, "yellow", "red", 2.0, "dotted", 0.2, true, 14.0, true);
+        DefaultLayout defaultLayout = new DefaultLayout("temp", 1L ,11.0, 20.23, 0.8, "yellow", "red", 2.0, "dotted", 0.2, true, 14.0, true);
         mapper.update(defaultLayout);
-        DefaultLayout result = mapper.getByName("temp",0L);
+        DefaultLayout result = mapper.getByName("temp",1L);
         System.out.println(result);
     }
 }
