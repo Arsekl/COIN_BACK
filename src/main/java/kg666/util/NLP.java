@@ -7,6 +7,7 @@ import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+import org.aopalliance.reflect.Class;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,6 +16,7 @@ import org.apache.spark.mllib.classification.NaiveBayesModel;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -30,26 +32,27 @@ public class NLP {
     private int modelIndex = 0;
 
     public NLP() throws Exception {
-        loadDict("src/main/resources/movieDict.txt", 0);
-        loadDict("src/main/resources/genreDict.txt", 1);
-        loadDict("src/main/resources/scoreDict.txt", 2);
-        loadDict("src/main/resources/languageDict.txt", 3);
-        loadDict("src/main/resources/districtDict.txt", 4);
-        loadDict("src/main/resources/personDict.txt", 5);
-        loadDict("src/main/resources/otherDict.txt", 6);
+        loadDict("movieDict.txt", 0);
+        loadDict("genreDict.txt", 1);
+        loadDict("scoreDict.txt", 2);
+        loadDict("languageDict.txt", 3);
+        loadDict("districtDict.txt", 4);
+        loadDict("personDict.txt", 5);
+        loadDict("otherDict.txt", 6);
         questionsPattern = loadQuestionsPattern();
         vocabulary = loadVocabulary();
         model = loadModel();
     }
 
     private void loadDict(String path,Integer type) {
-        File file = new File(path);
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new InputStreamReader(new ClassPathResource(path).getInputStream()));
             addCustomDictionary(br, type);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -198,11 +201,10 @@ public class NLP {
 
     private  Map<Double, String> loadQuestionsPattern() {
         Map<Double, String> questionsPattern = new HashMap<Double, String>();
-        File file = new File("src/main/resources/question/question_classification.txt");
         BufferedReader br;
         String line;
         try {
-            br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new InputStreamReader(new ClassPathResource("question/question_classification.txt").getInputStream()));
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
                 double index = Double.valueOf(tokens[0]);
@@ -217,11 +219,10 @@ public class NLP {
 
     private Map<String, Integer> loadVocabulary() {
         Map<String, Integer> vocabulary = new HashMap<String, Integer>();
-        File file = new File("src/main/resources/question/vocabulary.txt");
         BufferedReader br;
         String line;
         try {
-            br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new InputStreamReader(new ClassPathResource("question/vocabulary.txt").getInputStream()));
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(":");
                 int index = Integer.parseInt(tokens[0]);
@@ -237,8 +238,7 @@ public class NLP {
     }
 
     private String loadFile(String filename) throws IOException {
-        File file = new File(filename);
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource(filename).getInputStream()));
         String content = "";
         String line;
         while ((line = br.readLine()) != null) {
@@ -267,10 +267,10 @@ public class NLP {
 
     private void addTrainItem(List<LabeledPoint> trainList, String patternPath) throws Exception {
         List<String> list = new ArrayList<>();
-        File baseFile = new File(patternPath);
+        File baseFile = new ClassPathResource(patternPath).getFile();
         File[] files = baseFile.listFiles();
         for (File file : files) {
-                list.add(file.getPath());
+                list.add(patternPath+"/"+file.getName());
         }
         String[] sentences;
         Collections.sort(list);
@@ -292,7 +292,7 @@ public class NLP {
         SparkConf conf = new SparkConf().setAppName("NaiveBayesTest").setMaster("local[*]");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<LabeledPoint> trainList = new LinkedList<>();
-        addTrainItem(trainList, "src/main/resources/question/pattern");
+        addTrainItem(trainList, "question/pattern");
         JavaRDD<LabeledPoint> trainingRDD = sc.parallelize(trainList);
         NaiveBayesModel nb_model = NaiveBayes.train(trainingRDD.rdd());
         sc.close();
