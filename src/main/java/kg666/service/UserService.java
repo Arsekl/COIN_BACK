@@ -34,7 +34,7 @@ public class UserService {
                 return ResponseVO.buildFailure(USERNAME_REPEAT);
             }
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            e.printStackTrace();//
             return ResponseVO.buildFailure("Encrypt Error");
         }
     }
