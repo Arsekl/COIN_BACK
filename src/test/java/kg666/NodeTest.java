@@ -123,20 +123,20 @@ public class NodeTest {
 
     @Test
     public void findNodesTest(){
-        NodeFindVO nodeF0 = new NodeFindVO("temp", 0L, "movie", "Hjm", null, null);
-        NodeFindVO nodeF1 = new NodeFindVO("temp", 0L,"movie", null, null, null);
-        NodeFindVO nodeF2 = new NodeFindVO("temp", 0L,null, "hjm", 15D, 25D);
-        NodeFindVO nodeF3 = new NodeFindVO("temp", 0L,null, null, 15D, 25D);
+        NodeFindVO nodeF0 = new NodeFindVO("temp", 1L, "movie", "Hjm", null, null);
+        NodeFindVO nodeF1 = new NodeFindVO("temp", 1L,"movie", null, null, null);
+        NodeFindVO nodeF2 = new NodeFindVO("temp", 1L,null, "hjm", 15D, 25D);
+        NodeFindVO nodeF3 = new NodeFindVO("temp", 1L,null, null, 15D, 25D);
         NodeVO node0 = new NodeVO(null,null,null,null,null,null, "movie", "hjm0", 0L, 20D);
         NodeVO node1 = new NodeVO(null,null,null,null,null,null, "movie", "hjm1", 1L, 40D);
         NodeVO node3 = new NodeVO(null,null,null,null,null,null, "drama", "hj2", 2L, 20D);
         nodeService.createNode(node0);
         nodeService.createNode(node1);
         nodeService.createNode(node3);
-        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temp", 0));
+        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temp", 1));
         NodeVO nodeF = new NodeVO(null,null,null,null,null,null, "movie", "hjm0", 0L, 20D);
         nodeService.createNode(nodeF);
-        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temp", 1));
+        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temp", 2));
         System.out.println("----------------------------------------");
         List<HashMap<String,Object>> result = (List<HashMap<String,Object>>)nodeService.findNodes(nodeF0).getContent();
         assertThat(result.size()).isEqualTo(2);
