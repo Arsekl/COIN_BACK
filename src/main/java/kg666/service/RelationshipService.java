@@ -94,7 +94,7 @@ public class RelationshipService {
         String pic_name = relationship.getPic_name();
         Long uid = relationship.getUid();
         List<HashMap<String, Object>> result;
-        StringBuilder cypher = new StringBuilder(String.format("match (n)-[r:RE]->(m) where n.pic_name='%s' and n.uid=%s ", pic_name, uid));
+        StringBuilder cypher = new StringBuilder(String.format("match (n)-[r]->(m) where n.pic_name='%s' and n.uid=%s ", pic_name, uid));
         String nameCypher = String.format("match (n)-[r]->(m) where r.name=~'(?i).*%s.*' ", name);
         String sourceCypher = String.format("match (n)-[r]->(m) where n.name=~'(?i).*%s.*' ", source);
         String targetCypher = String.format("match (n)-[r]->(m) where m.name=~'(?i).*%s.*' ", target);
