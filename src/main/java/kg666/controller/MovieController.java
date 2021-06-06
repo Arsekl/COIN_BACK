@@ -32,4 +32,7 @@ public class MovieController {
 
     @PostMapping("/recommend/m")
     public ResponseVO recommendMovieByMovie(@RequestParam long id){return service.getRecommendedMovieByMovie(id);}
+
+    @PostMapping("/userdata")
+    public ResponseVO getUserData(@RequestParam long uid){return service.getUserMovieData(uid);}
 }
