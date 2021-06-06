@@ -14,6 +14,11 @@ public class GraphController {
     @Autowired
     GraphService graphService;
 
+    @GetMapping("/graphName")
+    public ResponseVO getUserGraphName(@RequestParam long uid) {
+        return graphService.getUserGraphName(uid);
+    }
+
     @GetMapping("/")
     public ResponseVO getGraph(@RequestParam String pic_name, @RequestParam Long uid) {
         return graphService.getGraph(pic_name, uid);

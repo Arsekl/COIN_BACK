@@ -1,5 +1,6 @@
 package kg666;
 
+import cats.kernel.Hash;
 import com.alibaba.fastjson.JSON;
 import kg666.data.DefaultLayoutMapper;
 import kg666.data.LinkLayoutMapper;
@@ -30,6 +31,7 @@ import org.testcontainers.containers.Neo4jContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -187,5 +189,21 @@ public class GraphTest {
         graphService.saveLayout(graphVO);
         assertThat(nodeLayoutMapper.getAll().size()).isEqualTo(9);
         assertThat(linkLayoutMapper.getAll().size()).isEqualTo(18);
+    }
+
+    @Test
+    void getGraphName(){
+        NodeVO node0 = new NodeVO(null, null, null, null, null, null, "movie", "hjm0", 0L, 20D);
+        NodeVO node1 = new NodeVO(null, null, null, null, null, null, "movie", "hjm1", 1L, 40D);
+        NodeVO node3 = new NodeVO(null, null, null, null, null, null, "drama", "hj2", 2L, 20D);
+        nodeService.createNode(node0);
+        nodeService.createNode(node1);
+        nodeService.createNode(node3);
+        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temp", 1));
+        NodeVO nodeF = new NodeVO(null, null, null, null, null, null, "movie", "hjm0", 0L, 20D);
+        nodeService.createNode(nodeF);
+        myNeo4jDriver.executeCypher(String.format("match (n) where n.pic_name is null and n.uid is null set n.pic_name='%s' set n.uid=%s", "temporary", 1));
+        List<HashMap<String, Object>> res = (ArrayList<HashMap<String, Object>>) graphService.getUserGraphName(1).getContent();
+        assertThat(res.size()).isEqualTo(2) ;
     }
 }

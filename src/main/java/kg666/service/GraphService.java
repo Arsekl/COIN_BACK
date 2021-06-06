@@ -42,6 +42,17 @@ public class GraphService {
     @Autowired
     private DefaultLayoutMapper defaultLayoutMapper;
 
+    public ResponseVO getUserGraphName(long uid){
+        List<HashMap<String, Object>> result;
+        try{
+            result = driver.getResult(String.format("match (n) where n.uid=%s return distinct n.pic_name", uid));
+            return ResponseVO.buildSuccess(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
+        }
+    }
+
     public ResponseVO getGraph(String pic_name, Long uid) {
         try {
             DefaultLayout defaultLayout = defaultLayoutMapper.getByName(pic_name, uid);

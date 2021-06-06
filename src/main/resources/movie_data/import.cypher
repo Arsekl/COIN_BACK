@@ -5,7 +5,7 @@ CREATE (:Movie{
   url: line.url,
   image: line.cover,
   rate: toFloat(line.rate),
-  category: line.category,
+  genre: line.category,
   district: line.district,
   language: line.language,
   showtime: toInteger(line.showtime),

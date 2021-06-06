@@ -81,7 +81,7 @@ public class MyNeo4jDriver {
                                 res.put(key, entry.getValue());
                             }
                             res.put("category", label);
-                            System.out.println(res);
+//                            System.out.println(res);
                             nodes.add(res);
                         }
                     }
@@ -119,7 +119,7 @@ public class MyNeo4jDriver {
                                 res.put(key, entry.getValue());
                             }
 //                            res.put("type", label);
-                            System.out.println(res);
+//                            System.out.println(res);
                             relationships.add(res);
                         }
                     }
@@ -144,72 +144,30 @@ public class MyNeo4jDriver {
         }
         return result;
     }
-//    /**
-//     * Use reflect to transform Object to Sql of String type
-//     * @param obj
-//     * @param <T>
-//     * @return Sql list
-//     */
-//    public <T> String getKeyAndValueCyphersql(T obj) {
-//        Map<String, Object> map = new HashMap<>();
-//        List<String> sqlList = new ArrayList<>();
-//        Class objClass = obj.getClass();
-//        Field[] fields = objClass.getDeclaredFields();
-//        for (int i = 0; i < fields.length; i++) {
-//            Field field = fields[i];
-//            Class type = field.getType();
-//            field.setAccessible(true);
-//            Object val;
-//            try {
-//                val = field.get(obj);
-//                if (val == null) {
-//                    val = "";
-//                }
-//                String sql = "";
-//                String key = field.getName();
-//                System.out.println("key:" + key + "type:" + type);
-//                if (val instanceof Integer) {
-//                    map.put(key, val);
-//                    sql = "n." + key + "=" + val;
-//                } else if (val instanceof String[]) {
-//                    String[] arr = (String[]) val;
-//                    String v = "";
-//                    for (int j = 0; j < arr.length; j++) {
-//                        arr[j] = "'" + arr[j] + "'";
-//                    }
-//                    v = String.join(",", arr);
-//                    sql = "n." + key + "=[" + v + "]";
-//                } else if (val instanceof List) {
-//                    List<String> arr = (ArrayList<String>) val;
-//                    List<String> temp = new ArrayList<>();
-//                    String v = "";
-//                    for (String s : arr) {
-//                        s = "'" + s + "'";
-//                        temp.add(s);
-//                    }
-//                    v = String.join(",", temp);
-//                    sql = "n." + key + "=[" + v + "]";
-//                } else {
-//                    map.put(key, val);
-//                    sql = "n." + key + "='" + val + "'";
-//                }
-//
-//                sqlList.add(sql);
-//            } catch (IllegalArgumentException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        String finalsql = String.join(",", sqlList);
-//        System.out.println(finalsql);
-//        System.out.println("单个对象的所有键值==反射==" + map.toString());
-//        return finalsql;
-//    }
 
-//    public static void main(String[] args) {
-//        EntityVO entity = new EntityVO();
-//        entity.setUuid(1223L);
-//        entity.setName("hjm");
-//        System.out.println(new Neo4jDriver().getFilterPropertiesJson(JSON.toJSONString(entity)));
-//    }
+    public List<HashMap<String, Object>> getResult(String cypher){
+        List<HashMap<String, Object>> result = new ArrayList<>();
+        try {
+            List<Record> records = executeCypher(cypher);
+            if (records.size() > 0) {
+                for (Record recordItem : records) {
+                    List<Pair<String, Value>> fields = recordItem.fields();
+                    HashMap<String, Object> res = new HashMap<>();
+                    for (Pair<String, Value> pair : fields) {
+                        Object value = null;
+                        if (pair.value().type().name().equals("INTEGER"))
+                            value = pair.value().asInt();
+                        else if (pair.value().type().name().equals("STRING"))
+                            value = pair.value().asString();
+                        res.put(pair.key(), value);
+                    }
+                    result.add(res);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  result;
+    }
 
 }
