@@ -118,6 +118,7 @@ public class MovieService {
     }
 
     public ResponseVO getRecommendedMovieByMovie(long id){
+        //电影之间的相似度
         String cypher = "MATCH (m:Movie {id:%s})-[:is|play|write|direct]-(g)-[:is|play|write|direct]-(other:Movie) WITH m, other, COUNT(g) AS intersection, COLLECT(g.name) AS i MATCH (m)-[:is|play|write|direct]-(mg) WITH m,other, intersection,i, COLLECT(mg.name) AS s1 MATCH (other)-[:is|play|write|direct]-(og) WITH m,other,intersection,i, s1, COLLECT(og.name) AS s2 WITH m,other,intersection,s1,s2 WITH m,other,intersection,s1+[x IN s2 WHERE NOT x IN s1] AS union, s1, s2 WITH other, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard RETURN other ORDER BY jaccard DESC LIMIT 10";
         try{
             List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher, id));
@@ -131,6 +132,7 @@ public class MovieService {
     }
 
     public ResponseVO getRecommendedMovieByUser(long uid){
+        //看得最多的题材中，从没看过里推荐
         String cypher = "MATCH (u:User{uid:%s})-[:like]->(m:Movie)-[:is]->(g:Genre) WITH u, g, COUNT(*) AS score, avg(m.rate) AS mean MATCH (g)<-[:is]-(rec:Movie) WHERE NOT EXISTS((u)-[:like]->(rec)) AND rec.rate>mean WITH rec AS recommendation,  SUM(score) AS sscore RETURN recommendation ORDER BY sscore DESC LIMIT 10";
         try{
             List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher, uid));

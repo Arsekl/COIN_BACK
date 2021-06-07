@@ -3,36 +3,33 @@ package kg666.controller;
 import kg666.service.MovieService;
 import kg666.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
     @Autowired
     MovieService service;
-    @PostMapping("/person")
+    @GetMapping("/person")
     public ResponseVO getPersonInfo(@RequestParam String name){
         return service.getPersonInfo(name);
     }
 
-    @PostMapping("/info")
+    @GetMapping("/info")
     public ResponseVO getMovieInfo(@RequestParam long id) {return service.getMovieInfo(id); }
 
-    @PostMapping("/like")
+    @GetMapping("/like")
     public ResponseVO likeMovie(@RequestParam long id, @RequestParam long uid) {return service.likeMovie(id, uid);}
 
-    @PostMapping("/unlike")
+    @GetMapping("/unlike")
     public ResponseVO unlikeMovie(@RequestParam long id, @RequestParam long uid) {return  service.unlikeMovie(id, uid);}
 
-    @PostMapping("/recommend/u")
+    @GetMapping("/recommend/u")
     public ResponseVO recommendMovieByUser(@RequestParam long uid){return service.getRecommendedMovieByUser(uid);}
 
-    @PostMapping("/recommend/m")
+    @GetMapping("/recommend/m")
     public ResponseVO recommendMovieByMovie(@RequestParam long id){return service.getRecommendedMovieByMovie(id);}
 
-    @PostMapping("/userdata")
+    @GetMapping("/userdata")
     public ResponseVO getUserData(@RequestParam long uid){return service.getUserMovieData(uid);}
 }
