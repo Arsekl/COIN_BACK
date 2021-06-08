@@ -97,7 +97,7 @@ public class MovieService {
         cypher.append(String.format("merge (a:Movie{id:%s}) merge (u:User{uid:%s}) merge(u)-[:like]->(a) ", id, uid));
         try {
             driver.executeCypher(cypher.toString());
-            driver.executeCypher("match (a)-[r]->(b) where a.pic_name='movie' set a.id=id(a) set b.id=id(b) set r.source=id(startNode(r)) set r.target=id(endNode(r))");
+            driver.executeCypher("match (a)-[r]->(b) where a.pic_name='movie' set a.id=id(a) set b.id=id(b) set r.source=id(startNode(r)) set r.target=id(endNode(r)) set r.id=id(r) ");
             return ResponseVO.buildSuccess();
         }catch (Exception e){
             e.printStackTrace();
