@@ -31,6 +31,12 @@ public class MovieController {
     @GetMapping("/recommend/m")
     public ResponseVO recommendMovieByMovie(@RequestParam long id){return service.getRecommendedMovieByMovie(id);}
 
+    @GetMapping("recommend/r")
+    public ResponseVO recommendMovieByRandom() {return service.getRecommendedMovieByRandom();}
+
+    @GetMapping("recommend/o")
+    public ResponseVO recommendMovieByOther(@RequestParam long uid) {return service.getRecommendedMovieByOther(uid);}
+
     @GetMapping("/userdata")
     public ResponseVO getUserData(@RequestParam long uid){return service.getUserMovieData(uid);}
 }

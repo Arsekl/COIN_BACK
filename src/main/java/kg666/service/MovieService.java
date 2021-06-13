@@ -144,4 +144,30 @@ public class MovieService {
             return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
         }
     }
+
+    public ResponseVO getRecommendedMovieByRandom(){
+        String cypher = "WITH toInteger(ceil(rand()*4587)) as r MATCH (m:Movie) where m.id<=r+9 and m.id>=r return m ";
+        try{
+            List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher));
+            HashMap<String, Object> res = new HashMap<>();
+            res.put("rec", movie);
+            return ResponseVO.buildSuccess(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
+        }
+    }
+
+    public ResponseVO getRecommendedMovieByOther(long uid){
+        String cypher = "match (u:User{uid:%s})-[:like]->(:Movie)<-[:like]-(o:User) where o.uid<>%s  match (o)-[:like]->(m:Movie) where not exists((u)-[:like]->(m)) with  distinct m as movies, count (m) as frequency return movies order by frequency desc limit 10";
+        try{
+            List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher, uid, uid));
+            HashMap<String, Object> res = new HashMap<>();
+            res.put("rec", movie);
+            return ResponseVO.buildSuccess(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
+        }
+    }
 }

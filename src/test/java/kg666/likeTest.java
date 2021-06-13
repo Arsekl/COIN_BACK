@@ -97,6 +97,7 @@ public class likeTest {
         System.out.println(JSON.toString(service.getUserMovieData(1).getContent()));
         System.out.println(JSON.toString(service.getRecommendedMovieByMovie(2).getContent()));
         System.out.println(JSON.toString(service.getRecommendedMovieByUser(2).getContent()));
+        System.out.println(JSON.toString(service.getRecommendedMovieByOther(2).getContent()));
     }
 
 }

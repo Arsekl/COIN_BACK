@@ -196,7 +196,20 @@ public class NLP {
             } else if (termStr.contains("ng")) { //ng 类型
                 abstractQuery += "ng ";
                 abstractMap.put("ng", word);
-            } else {
+            } else if (termStr.contains("nl")) { //nl 语言
+                abstractQuery += "nl ";
+                abstractMap.put("nl", word);
+            } else if (termStr.contains("nd")) { //nd 地区
+                abstractQuery += "nd ";
+                abstractMap.put("nd", word);
+            } else if (termStr.contains("nmo")) { //nmo 别名
+                abstractQuery += "nmo ";
+                abstractMap.put("nmo", word);
+            } else if (termStr.contains("m")) { //m 年份
+                abstractQuery += "mmm ";
+                abstractMap.put("mmm", word);
+            }
+            else {
                 abstractQuery += word + " ";
             }
         }
@@ -204,7 +217,7 @@ public class NLP {
     }
 
     private  Map<Double, String> loadQuestionsPattern() {
-        Map<Double, String> questionsPattern = new HashMap<Double, String>();
+        Map<Double, String> questionsPattern = new HashMap<>();
         BufferedReader br;
         String line;
         try {

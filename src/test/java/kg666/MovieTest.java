@@ -31,4 +31,9 @@ public class MovieTest {
         HashMap<String, Object> result = (HashMap<String, Object>) service.getMovieInfo(1).getContent();
         System.out.println(JSON.toString(result));
     }
+
+    @Test
+    public void getRandom(){
+        System.out.println(JSON.toString(service.getRecommendedMovieByRandom().getContent()));
+    }
 }

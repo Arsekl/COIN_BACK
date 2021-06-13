@@ -72,6 +72,10 @@ public class NLPTest {
     @Test
     public void TestC() throws Exception{
         nlp.analysisQuery("英雄的评分是多少");
-        nlp.analysisQuery("阿尔芭·洛尔瓦彻主演的电影");
+        nlp.analysisQuery("115年的电影");
+    }
+    @Test
+    public void TestD(){
+
     }
 }
