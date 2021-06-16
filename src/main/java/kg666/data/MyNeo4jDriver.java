@@ -7,7 +7,6 @@ import org.neo4j.driver.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ public class MyNeo4jDriver {
     /**
      * Execute given cypher statement
      *
-     * @param cypher
+     * @param cypher clause
      * @return a stream of result values
      */
     public List<Record> executeCypher(String cypher) {
@@ -56,7 +55,7 @@ public class MyNeo4jDriver {
     /**
      * Extract nodes from query's result and map into a list
      *
-     * @param cypher
+     * @param cypher clause
      * @return List with node's attributes inside
      */
     public List<HashMap<String, Object>> getGraphNode(String cypher) {
@@ -65,9 +64,6 @@ public class MyNeo4jDriver {
             List<Record> records = executeCypher(cypher);
             if (records.size() > 0) {
                 for (Record record : records) {
-                    /**
-                     * 这里用不到record的key值，待测试
-                     */
                     List<Pair<String, Value>> fields = record.fields();
                     for (Pair<String, Value> pair : fields) {
                         HashMap<String, Object> res = new HashMap<>();
@@ -97,7 +93,7 @@ public class MyNeo4jDriver {
      * Extract relationships from query's result and map into a list
      * There are redundant codes exist, may be able to be fix by design pattern
      *
-     * @param cypher
+     * @param cypher clause
      * @return List with relationship's attributes inside
      */
     public List<HashMap<String, Object>> getGraphRelationShip(String cypher) {
@@ -155,10 +151,26 @@ public class MyNeo4jDriver {
                     HashMap<String, Object> res = new HashMap<>();
                     for (Pair<String, Value> pair : fields) {
                         Object value = null;
-                        if (pair.value().type().name().equals("INTEGER"))
-                            value = pair.value().asInt();
-                        else if (pair.value().type().name().equals("STRING"))
-                            value = pair.value().asString();
+                        switch (pair.value().type().name()) {
+                            case "INTEGER":
+                                value = pair.value().asInt();
+                                break;
+                            case "STRING":
+                                value = pair.value().asString();
+                                break;
+                            case "FLOAT":
+                                value = pair.value().asFloat();
+                                break;
+                            case "DOUBLE":
+                                value = pair.value().asDouble();
+                                break;
+                            case "NODE":
+                                value = pair.value().asNode().asMap();
+                                break;
+                            case "LONG":
+                                value = pair.value().asLong();
+                                break;
+                        }
                         res.put(pair.key(), value);
                     }
                     result.add(res);

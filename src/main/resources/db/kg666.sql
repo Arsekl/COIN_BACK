@@ -5,11 +5,12 @@ drop table if exists `default_layout`;
 drop table if exists `link_layout`;
 drop table if exists `node_layout`;
 drop table if exists `user`;
+drop table if exists `question`;
 create table `user`
 (
 	`uid` BIGINT auto_increment,
     `name`	varchar(32) not null unique,
-    `password` varchar(32) not null,
+    `password` varchar(128) not null,
     primary key (`uid`)
 ) AUTO_INCREMENT=0 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 truncate table user;
@@ -71,3 +72,9 @@ create table `default_layout`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 insert into `default_layout`
 values ('temp', 1, 102.36, 29.71, 1, 'red', 'blue', 1, 'solid', 0.5, false, 12, false);
+create table `question`(
+    `question` varchar(512) not null,
+    `id` BIGINT auto_increment not null,
+    primary key (`id`),
+    `create_date` timestamp not null default current_timestamp
+)

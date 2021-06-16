@@ -36,4 +36,11 @@ public class MovieTest {
     public void getRandom(){
         System.out.println(JSON.toString(service.getRecommendedMovieByRandom().getContent()));
     }
+
+    @Test
+    void getA(){
+        System.out.println(JSON.toString(service.getAnswerForQuestion("尔冬升出演的老片")));
+        System.out.println(JSON.toString(service.getAnswerForQuestion("那他导演的有哪些")));
+        System.out.println(JSON.toString(service.getAnswerForQuestion("英雄的上映时间")));
+    }
 }

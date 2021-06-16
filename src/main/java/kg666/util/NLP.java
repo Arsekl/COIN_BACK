@@ -7,8 +7,6 @@ import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import org.aopalliance.reflect.Class;
-import org.apache.commons.io.FileUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -28,11 +26,10 @@ import java.util.*;
 
 @Component
 public class NLP {
-    static final String pattern0 = "match (n:Movie{name:'%s'}) return n";
-    private Map<Double, String> questionsPattern;
-    private NaiveBayesModel model;
-    private Map<String, Integer> vocabulary;
-    private Map<String, String> abstractMap;
+    private final Map<Double, String> questionsPattern;
+    private final NaiveBayesModel model;
+    private final Map<String, Integer> vocabulary;
+    private final Map<String, String> abstractMap =new HashMap<>();
     private int modelIndex = 0;
 
     public NLP() throws Exception {
@@ -53,8 +50,6 @@ public class NLP {
         try {
             br = new BufferedReader(new InputStreamReader(new ClassPathResource(path).getInputStream()));
             addCustomDictionary(br, type);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,16 +77,16 @@ public class NLP {
                         break;
                     case 5:
                         setNatureAndFrequency(word, "nr 0");
+                        break;
                     case 6:
                         setNatureAndFrequency(word, "nmo 0");
+                        break;
                     default:
                         break;
                 }
             }
             br.close();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -103,11 +98,12 @@ public class NLP {
             CustomDictionary.add(word,natureWithFrequency);
         }
     }
+
     private void unsetNatureAndFrequency(String word, String natureWithFrequency){
         String[] natureWithFrequencyArr = natureWithFrequency.split(" ");
         Nature natureNew = null;
         int frequencyNew = 0 ;
-        if(natureWithFrequencyArr!=null && natureWithFrequencyArr.length == 2){
+        if(natureWithFrequencyArr.length == 2){
             natureNew =  Nature.create(natureWithFrequencyArr[0]);
             frequencyNew = Integer.parseInt(natureWithFrequencyArr[1]);
         }
@@ -127,31 +123,27 @@ public class NLP {
         }
     }
 
-    public ArrayList<String> analysisQuery(String queryString) throws Exception {
+    public String analysisQuery(String queryString) {
         String abs = queryAbstract(queryString);
         System.out.println("Abstract：" + abs);
-
         String strPattern = queryClassify(abs);
+        System.out.println("Classify:" + modelIndex);
         String finalPattern = queryReplace(strPattern);
         System.out.println("Replace：" + finalPattern);
-
-        ArrayList<String> resultList = new ArrayList<String>();
-        resultList.add(String.valueOf(modelIndex));
-        String[] finalPatternArray = finalPattern.split(" ");
-        for (String word : finalPatternArray)
-            resultList.add(word);
-        switch (modelIndex){
-            case 0:
-                System.out.println(String.format(pattern0, resultList.get(1)));
-        }
-        return resultList;
+        return finalPattern;
     }
 
-    private String queryClassify(String sentence) throws Exception {
+    private String queryClassify(String sentence) {
         double[] testArray = sentenceToVector(sentence);
         Vector v = Vectors.dense(testArray);
         double index = model.predict(v);
         modelIndex = (int)index;
+//        System.out.println("--------------------------------");
+//        double[] p = model.predictProbabilities(v).toArray();
+//        for (int i = 0;i<15;i++){
+//            System.out.println(i+" "+String.format("%.5f", p[i]));
+//        }
+//        System.out.println("--------------------------------");
         System.out.println("the model index is " + index);
         return questionsPattern.get(index);
     }
@@ -164,56 +156,53 @@ public class NLP {
                 queryPattern = queryPattern.replace(key, value);
             }
         }
-        abstractMap.clear();
-        abstractMap = null;
         return queryPattern;
     }
 
     private String queryAbstract(String querySentence) {
         Segment segment = HanLP.newSegment().enableCustomDictionary(true);
         List<Term> terms = segment.seg(querySentence);
-        String abstractQuery = "";
-        abstractMap = new HashMap<>();
+        StringBuilder abstractQuery = new StringBuilder();
         int nrCount = 0;
         for (Term term : terms) {
             String word = term.word;
             String termStr = term.toString();
             System.out.println(termStr);
             if (termStr.contains("nm")) { //nm 电影名
-                abstractQuery += "nm ";
+                abstractQuery.append("nm ");
                 abstractMap.put("nm", word);
             } else if (termStr.contains("nr") && nrCount == 0) { //nr 人名 -> nnt
-                abstractQuery += "nnt ";
+                abstractQuery.append("nnt ");
                 abstractMap.put("nnt", word);
                 nrCount++;
             } else if (termStr.contains("nr") && nrCount == 1) { //nr 人名再出现一次 -> nnr
-                abstractQuery += "nnr ";
+                abstractQuery.append("nnr ");
                 abstractMap.put("nnr", word);
                 nrCount++;
             } else if (termStr.contains("x")) {  //x  评分
-                abstractQuery += "x ";
+                abstractQuery.append("x ");
                 abstractMap.put("x", word);
             } else if (termStr.contains("ng")) { //ng 类型
-                abstractQuery += "ng ";
+                abstractQuery.append("ng ");
                 abstractMap.put("ng", word);
             } else if (termStr.contains("nl")) { //nl 语言
-                abstractQuery += "nl ";
+                abstractQuery.append("nl ");
                 abstractMap.put("nl", word);
             } else if (termStr.contains("nd")) { //nd 地区
-                abstractQuery += "nd ";
+                abstractQuery.append("nd ");
                 abstractMap.put("nd", word);
             } else if (termStr.contains("nmo")) { //nmo 别名
-                abstractQuery += "nmo ";
+                abstractQuery.append("nmo ");
                 abstractMap.put("nmo", word);
             } else if (termStr.contains("m")) { //m 年份
-                abstractQuery += "mmm ";
+                abstractQuery.append("mmm ");
                 abstractMap.put("mmm", word);
             }
             else {
-                abstractQuery += word + " ";
+                abstractQuery.append(word).append(" ");
             }
         }
-        return abstractQuery;
+        return abstractQuery.toString();
     }
 
     private  Map<Double, String> loadQuestionsPattern() {
@@ -224,7 +213,7 @@ public class NLP {
             br = new BufferedReader(new InputStreamReader(new ClassPathResource("question/question_classification.txt").getInputStream()));
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                double index = Double.valueOf(tokens[0]);
+                double index = Double.parseDouble(tokens[0]);
                 String pattern = tokens[1];
                 questionsPattern.put(index, pattern);
             }
@@ -235,7 +224,7 @@ public class NLP {
     }
 
     private Map<String, Integer> loadVocabulary() {
-        Map<String, Integer> vocabulary = new HashMap<String, Integer>();
+        Map<String, Integer> vocabulary = new HashMap<>();
         BufferedReader br;
         String line;
         try {
@@ -246,9 +235,7 @@ public class NLP {
                 String word = tokens[1];
                 vocabulary.put(word, index);
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         }
         return vocabulary;
@@ -256,16 +243,16 @@ public class NLP {
 
     private String loadFile(String filename) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(new ClassPathResource(filename).getInputStream()));
-        String content = "";
+        StringBuilder content = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
-            content += line + ",";
+            content.append(line).append(",");
         }
         br.close();
-        return content;
+        return content.toString();
     }
 
-    private  double[] sentenceToVector(String sentence) throws Exception {
+    private  double[] sentenceToVector(String sentence) {
         double[] vector = new double[vocabulary.size()];
         for (int i = 0; i < vocabulary.size(); i++) {
             vector[i] = 0;
@@ -282,12 +269,12 @@ public class NLP {
         return vector;
     }
 
-    private void addTrainItem(List<LabeledPoint> trainList, String patternPath) throws Exception {
+    private void addTrainItem(List<LabeledPoint> trainList) throws Exception {
         List<String> list = new ArrayList<>();
-        Resource[] resources = new PathMatchingResourcePatternResolver().getResources(ResourceUtils.CLASSPATH_URL_PREFIX+patternPath+"/*.txt");
+        Resource[] resources = new PathMatchingResourcePatternResolver().getResources(ResourceUtils.CLASSPATH_URL_PREFIX+ "question/pattern" +"/*.txt");
         for(Resource resource : resources){
             String fileName = resource.getFilename();
-            list.add(patternPath+"/"+fileName);
+            list.add("question/pattern" +"/"+fileName);
         }
         String[] sentences;
         Collections.sort(list);
@@ -309,7 +296,7 @@ public class NLP {
         SparkConf conf = new SparkConf().setAppName("NaiveBayesTest").setMaster("local[*]");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<LabeledPoint> trainList = new LinkedList<>();
-        addTrainItem(trainList, "question/pattern");
+        addTrainItem(trainList);
         JavaRDD<LabeledPoint> trainingRDD = sc.parallelize(trainList);
         NaiveBayesModel nb_model = NaiveBayes.train(trainingRDD.rdd());
         sc.close();

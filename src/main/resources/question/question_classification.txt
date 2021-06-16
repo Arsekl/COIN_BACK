@@ -36,65 +36,65 @@
 35,match (p:Person{name:'nnt'})-->(m:Movie) return count(m)
 36,match (m:Movie) where m.length>110 return m order by m.rate limit 3
 37,match (m:Movie) where m.length<=110 return m order by m.rate limit 3
-38,match (m:Movie) where m.showtime>2000 return m order by m.rate limit 3
+38,match (m:Movie) where m.showtime>=2015 return m order by m.rate limit 3
 39,match (m:Movie) where m.showtime<=2000 return m order by m.rate limit 3
 40,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m order by m.rate limit 3
 41,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m order by m.rate limit 3
-42,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>2000 return m order by m.rate limit 3
+42,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m order by m.rate limit 3
 43,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m order by m.rate limit 3
 44,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m order by m.rate limit 3
 45,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m order by m.rate limit 3
-46,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m order by m.rate limit 3
+46,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m order by m.rate limit 3
 47,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m order by m.rate limit 3
 48,match (m:Movie) where m.othername=~'(?i).*nmo.*' return m
 49,match (m:Movie) where m.district=~'(?i).*nd.*' return count(m)
 50,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.length>110 return m
 51,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.length<=110 return m
-52,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.showtime>2000 return m
+52,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.showtime>=2015 return m
 53,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.showtime<=2000 return m
 54,match (p:Person{name:'nnt'})-[r:write]->(m:Movie) where m.length>110 return m
 55,match (p:Person{name:'nnt'})-[r:write]->(m:Movie) where m.length<=110 return m
-56,match (p:Person{name:'nnt'})-[r:write]->(m:Movie) where m.showtime>2000 return m
+56,match (p:Person{name:'nnt'})-[r:write]->(m:Movie) where m.showtime>=2015 return m
 57,match (p:Person{name:'nnt'})-[r:write]->(m:Movie) where m.showtime<=2000 return m
 58,match (p:Person{name:'nnt'})-[r:direct]->(m:Movie) where m.length>110 return m
 59,match (p:Person{name:'nnt'})-[r:direct]->(m:Movie) where m.length<=110 return m
-60,match (p:Person{name:'nnt'})-[r:direct]->(m:Movie) where m.showtime>2000 return m
+60,match (p:Person{name:'nnt'})-[r:direct]->(m:Movie) where m.showtime>=2015 return m
 61,match (p:Person{name:'nnt'})-[r:direct]->(m:Movie) where m.showtime<=2000 return m
 62,match (p:Person{name:'nnt'})-->(m:Movie) where m.length>110 return m
 63,match (p:Person{name:'nnt'})-->(m:Movie) where m.length<=110 return m
-64,match (p:Person{name:'nnt'})-->(m:Movie) where m.showtime>2000 return m
+64,match (p:Person{name:'nnt'})-->(m:Movie) where m.showtime>=2015 return m
 65,match (p:Person{name:'nnt'})-->(m:Movie) where m.showtime<=2000 return m
 66,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m
 67,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m
-68,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>2000 return m
+68,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m
 69,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m
 70,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m
 71,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m
-72,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m
+72,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m
 73,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m
 74,match (p:Person{name:'nnt'})-[:play]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m
 75,match (p:Person{name:'nnt'})-[:play]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m
-76,match (p:Person{name:'nnt'})-[:play]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>2000 return m
+76,match (p:Person{name:'nnt'})-[:play]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m
 77,match (p:Person{name:'nnt'})-[:play]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m
 78,match (p:Person{name:'nnt'})-[:play]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m
 79,match (p:Person{name:'nnt'})-[:play]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m
-80,match (p:Person{name:'nnt'})-[:play]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m
+80,match (p:Person{name:'nnt'})-[:play]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m
 81,match (p:Person{name:'nnt'})-[:play]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m
 82,match (p:Person{name:'nnt'})-[:write]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m
 83,match (p:Person{name:'nnt'})-[:write]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m
-84,match (p:Person{name:'nnt'})-[:write]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>2000 return m
+84,match (p:Person{name:'nnt'})-[:write]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m
 85,match (p:Person{name:'nnt'})-[:write]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m
 86,match (p:Person{name:'nnt'})-[:write]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m
 87,match (p:Person{name:'nnt'})-[:write]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m
-88,match (p:Person{name:'nnt'})-[:write]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m
+88,match (p:Person{name:'nnt'})-[:write]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m
 89,match (p:Person{name:'nnt'})-[:write]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m
 90,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m
 91,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m
-92,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>2000 return m
+92,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m
 93,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m
 94,match (p:Person{name:'nnt'})-[:direct]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m
 95,match (p:Person{name:'nnt'})-[:direct]->(m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m
-96,match (p:Person{name:'nnt'})-[:direct]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m
+96,match (p:Person{name:'nnt'})-[:direct]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m
 97,match (p:Person{name:'nnt'})-[:direct]->(m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m
 98,match (p:Person{name:'nnt'})-->(m:Movie) where m.language=~'(?i).*nl.*' return m
 99,match (p:Person{name:'nnt'})-->(m:Movie) where m.district=~'(?i).*nd.*' return m
@@ -113,6 +113,7 @@
 112,match (p:Person{name:'nnt'})-[:direct]->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime=mmm return m
 113,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.length>110 return m
 114,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.length<=110 return m
-115,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.showtime>2000 return m
+115,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m
 116,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m
 117,match (p:Person{name:'nnt'})-->(m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.language=~'(?i).*nl.*' and m.showtime=mmm return m
+118,match (m:Movie{name:'nm'}) return m.othername

@@ -39,4 +39,10 @@ public class MovieController {
 
     @GetMapping("/userdata")
     public ResponseVO getUserData(@RequestParam long uid){return service.getUserMovieData(uid);}
+
+    @GetMapping("/answer")
+    public ResponseVO getAnswer(@RequestParam String question) {return service.getAnswerForQuestion(question);}
+
+    @GetMapping("/feedback")
+    public ResponseVO feedBack(@RequestParam String question) {return service.feedBack(question);}
 }

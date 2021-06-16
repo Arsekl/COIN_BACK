@@ -1,6 +1,8 @@
 package kg666.service;
 
 import kg666.data.MyNeo4jDriver;
+import kg666.data.QuestionMapper;
+import kg666.util.NLP;
 import kg666.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MovieService {
@@ -16,6 +17,12 @@ public class MovieService {
 
     @Autowired
     MyNeo4jDriver driver;
+
+    @Autowired
+    NLP nlp;
+
+    @Autowired
+    QuestionMapper mapper;
 
     public ResponseVO getPersonInfo(String name){
         String play = String.format("match (p:Person{name:'%s'})-[:play]->(m:Movie) return m", name);
@@ -148,7 +155,7 @@ public class MovieService {
     public ResponseVO getRecommendedMovieByRandom(){
         String cypher = "WITH toInteger(ceil(rand()*4587)) as r MATCH (m:Movie) where m.id<=r+9 and m.id>=r return m ";
         try{
-            List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher));
+            List<HashMap<String, Object>> movie = driver.getGraphNode(cypher);
             HashMap<String, Object> res = new HashMap<>();
             res.put("rec", movie);
             return ResponseVO.buildSuccess(res);
@@ -169,5 +176,21 @@ public class MovieService {
             e.printStackTrace();
             return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
         }
+    }
+
+    public ResponseVO getAnswerForQuestion(String question){
+        String cypher = nlp.analysisQuery(question);
+        try{
+            List<HashMap<String, Object>> res = driver.getResult(cypher);
+            return ResponseVO.buildSuccess(res);
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(DRIVER_RUNNING_ERROR);
+        }
+    }
+
+    public ResponseVO feedBack(String question){
+        mapper.insertQuestion(question);
+        return ResponseVO.buildSuccess();
     }
 }

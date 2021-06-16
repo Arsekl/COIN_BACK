@@ -1,9 +1,7 @@
 package kg666;
 
 import kg666.data.DefaultLayoutMapper;
-import kg666.data.NodeLayoutMapper;
 import kg666.po.DefaultLayout;
-import kg666.po.NodeLayout;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 @SpringBootTest

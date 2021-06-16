@@ -33,8 +33,7 @@ public class NodeService {
         Double size = nodeVO.getSymbolSize();
         Long id = nodeVO.getId();
         String property = "{name:'"+name+"', id:" + id +", symbolSize:" + size + ", pic_name:'" + pic_name + "', uid:" + uid + "}";
-        String cypher = String.format("create (n%s:`%s` %s) ", id, label, property);
-        return cypher;
+        return String.format("create (n%s:`%s` %s) ", id, label, property);
     }
 
     public ResponseVO createNode(NodeVO nodeVO) {
