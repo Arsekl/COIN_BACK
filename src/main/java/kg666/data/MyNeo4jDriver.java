@@ -159,8 +159,6 @@ public class MyNeo4jDriver {
                                 value = pair.value().asString();
                                 break;
                             case "FLOAT":
-                                value = pair.value().asFloat();
-                                break;
                             case "DOUBLE":
                                 value = pair.value().asDouble();
                                 break;

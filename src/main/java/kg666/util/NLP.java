@@ -10,8 +10,9 @@ import com.hankcs.hanlp.seg.common.Term;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.mllib.classification.NaiveBayes;
-import org.apache.spark.mllib.classification.NaiveBayesModel;
+import org.apache.spark.mllib.classification.LogisticRegressionModel;
+import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS;
+import org.apache.spark.mllib.classification.LogisticRegressionWithSGD;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.regression.LabeledPoint;
@@ -27,7 +28,7 @@ import java.util.*;
 @Component
 public class NLP {
     private final Map<Double, String> questionsPattern;
-    private final NaiveBayesModel model;
+    private final LogisticRegressionModel model;
     private final Map<String, Integer> vocabulary;
     private final Map<String, String> abstractMap =new HashMap<>();
     private int modelIndex = 0;
@@ -138,12 +139,6 @@ public class NLP {
         Vector v = Vectors.dense(testArray);
         double index = model.predict(v);
         modelIndex = (int)index;
-//        System.out.println("--------------------------------");
-//        double[] p = model.predictProbabilities(v).toArray();
-//        for (int i = 0;i<15;i++){
-//            System.out.println(i+" "+String.format("%.5f", p[i]));
-//        }
-//        System.out.println("--------------------------------");
         System.out.println("the model index is " + index);
         return questionsPattern.get(index);
     }
@@ -153,7 +148,9 @@ public class NLP {
         for (String key : set) {
             if (queryPattern.contains(key)) {
                 String value = abstractMap.get(key);
-                queryPattern = queryPattern.replace(key, value);
+                if (key.equals("ng"))
+                    queryPattern = queryPattern.replace("name:'"+key+"'", "name:'"+value+"'");
+                else queryPattern = queryPattern.replace(key, value);
             }
         }
         return queryPattern;
@@ -227,13 +224,12 @@ public class NLP {
         Map<String, Integer> vocabulary = new HashMap<>();
         BufferedReader br;
         String line;
+        int index = 0;
         try {
             br = new BufferedReader(new InputStreamReader(new ClassPathResource("question/vocabulary.txt").getInputStream()));
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(":");
-                int index = Integer.parseInt(tokens[0]);
-                String word = tokens[1];
-                vocabulary.put(word, index);
+                vocabulary.put(line, index);
+                index++;
             }
         } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
@@ -292,15 +288,15 @@ public class NLP {
         }
     }
 
-    private  NaiveBayesModel loadModel() throws Exception {
-        SparkConf conf = new SparkConf().setAppName("NaiveBayesTest").setMaster("local[*]");
+    private LogisticRegressionModel loadModel() throws Exception {
+        SparkConf conf = new SparkConf().setAppName("Model").setMaster("local[*]");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<LabeledPoint> trainList = new LinkedList<>();
         addTrainItem(trainList);
         JavaRDD<LabeledPoint> trainingRDD = sc.parallelize(trainList);
-        NaiveBayesModel nb_model = NaiveBayes.train(trainingRDD.rdd());
+        LogisticRegressionModel initModel = new LogisticRegressionWithLBFGS().setNumClasses(questionsPattern.size()).run(trainingRDD.rdd());
         sc.close();
-        return nb_model;
+        return initModel;
     }
 
 

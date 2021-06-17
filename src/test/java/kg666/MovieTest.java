@@ -39,8 +39,8 @@ public class MovieTest {
 
     @Test
     void getA(){
-        System.out.println(JSON.toString(service.getAnswerForQuestion("尔冬升出演的老片")));
-        System.out.println(JSON.toString(service.getAnswerForQuestion("那他导演的有哪些")));
-        System.out.println(JSON.toString(service.getAnswerForQuestion("英雄的上映时间")));
+        System.out.println(JSON.toString(service.getAnswerForQuestion("尔冬升参演的普通话电影")));
+//        System.out.println(JSON.toString(service.getAnswerForQuestion("他写了什么短片")));
+//        System.out.println(JSON.toString(service.getAnswerForQuestion("口碑好的普通话新片")));
     }
 }
