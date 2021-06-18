@@ -46,6 +46,5 @@ public class QuestionTest {
         service.feedBack("hello?");
         List<String> res = mapper.getAllQuestion();
         assertThat(res.size()).isEqualTo(1);
-
     }
 }

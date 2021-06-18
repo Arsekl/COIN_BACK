@@ -39,7 +39,7 @@ public class MovieTest {
 
     @Test
     void getA(){
-        System.out.println(JSON.toString(service.getAnswerForQuestion("宝贝计划的上映时间")));
+        System.out.println(JSON.toString(service.getAnswerForQuestion("宝贝计划详情")));
 //        System.out.println(JSON.toString(service.getAnswerForQuestion("他写了什么短片")));
 //        System.out.println(JSON.toString(service.getAnswerForQuestion("口碑好的普通话新片")));
     }
