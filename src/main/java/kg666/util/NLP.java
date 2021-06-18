@@ -12,9 +12,8 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.classification.LogisticRegressionModel;
 import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS;
-import org.apache.spark.mllib.classification.LogisticRegressionWithSGD;
-import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -22,7 +21,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Component
@@ -33,6 +34,10 @@ public class NLP {
     private final Map<String, String> abstractMap =new HashMap<>();
     private int modelIndex = 0;
 
+    /**
+     * Initiate model and load vocabulary and question pattern
+     * g@throws Exception
+     */
     public NLP() throws Exception {
         loadDict("movieDict.txt", 0);
         loadDict("genreDict.txt", 1);
@@ -46,6 +51,11 @@ public class NLP {
         model = loadModel();
     }
 
+    /**
+     * Load word dict from file
+     * Dict path @param path
+     * Type @param type
+     */
     private void loadDict(String path,Integer type) {
         BufferedReader br;
         try {
@@ -56,6 +66,11 @@ public class NLP {
         }
     }
 
+    /**
+     * Put words in dict into custom dictionary
+     * Bufferedreader@param br
+     * Type@param type
+     */
     private void addCustomDictionary(BufferedReader br, int type) {
         String word;
         try {
@@ -92,6 +107,11 @@ public class NLP {
         }
     }
 
+    /**
+     * Set word's nature and frequency when is put into custom dict
+     * Word@param word
+     * Nature With Frequency Split By Space@param natureWithFrequency
+     */
     private void setNatureAndFrequency(String word, String natureWithFrequency){
         if(CustomDictionary.contains(word)){
             unsetNatureAndFrequency(word,natureWithFrequency);
@@ -100,6 +120,11 @@ public class NLP {
         }
     }
 
+    /**
+     * Unset original nature and frequency of word if already has existed in dict
+     * Word @param word
+     * Nature With Frequency Split By Space@param natureWithFrequency
+     */
     private void unsetNatureAndFrequency(String word, String natureWithFrequency){
         String[] natureWithFrequencyArr = natureWithFrequency.split(" ");
         Nature natureNew = null;
@@ -124,6 +149,11 @@ public class NLP {
         }
     }
 
+    /**
+     *Compose abstract stage, classify stage and replace stage together in order
+     * Question @param queryString
+     * Concrete Cypher@return
+     */
     public String analysisQuery(String queryString) {
         String abs = queryAbstract(queryString);
         System.out.println("Abstract：" + abs);
@@ -134,6 +164,11 @@ public class NLP {
         return finalPattern;
     }
 
+    /**
+     * Use model to classify question
+     * Abstract Question @param sentence
+     * Abstract Cypher@return
+     */
     private String queryClassify(String sentence) {
         double[] testArray = sentenceToVector(sentence);
         Vector v = Vectors.dense(testArray);
@@ -143,6 +178,11 @@ public class NLP {
         return questionsPattern.get(index);
     }
 
+    /**
+     * Replace abstract word to get concrete query cypher
+     * Abstract Cypher@param queryPattern
+     * Concrete Cypher@return
+     */
     private String queryReplace(String queryPattern) {
         Set<String> set = abstractMap.keySet();
         for (String key : set) {
@@ -156,18 +196,25 @@ public class NLP {
         return queryPattern;
     }
 
+    /**
+     * Transform word in custom dict into abstract word for classify
+     * Question@param querySentence
+     * Abstract Question@return
+     */
     private String queryAbstract(String querySentence) {
         Segment segment = HanLP.newSegment().enableCustomDictionary(true);
         List<Term> terms = segment.seg(querySentence);
         StringBuilder abstractQuery = new StringBuilder();
         int nrCount = 0;
+        int nmCount = 0;
         for (Term term : terms) {
             String word = term.word;
             String termStr = term.toString();
             System.out.println(termStr);
-            if (termStr.contains("nm")) { //nm 电影名
+            if (termStr.contains("nm") && nmCount ==0) { //nm 电影名
                 abstractQuery.append("nm ");
                 abstractMap.put("nm", word);
+                nmCount++;
             } else if (termStr.contains("nr") && nrCount == 0) { //nr 人名 -> nnt
                 abstractQuery.append("nnt ");
                 abstractMap.put("nnt", word);
@@ -202,6 +249,10 @@ public class NLP {
         return abstractQuery.toString();
     }
 
+    /**
+     * Load question pattern form file
+     * Question Pattern in Map Form@return
+     */
     private  Map<Double, String> loadQuestionsPattern() {
         Map<Double, String> questionsPattern = new HashMap<>();
         BufferedReader br;
@@ -220,6 +271,10 @@ public class NLP {
         return questionsPattern;
     }
 
+    /**
+     * load vocabulary table from file
+     * Vocabulary Table in Map Form @return
+     */
     private Map<String, Integer> loadVocabulary() {
         Map<String, Integer> vocabulary = new HashMap<>();
         BufferedReader br;
@@ -248,6 +303,11 @@ public class NLP {
         return content.toString();
     }
 
+    /**
+     * Transform sentence into vector for training or predicting
+     * Abstract Question@param sentence
+     * Vector for Trainning@return
+     */
     private  double[] sentenceToVector(String sentence) {
         double[] vector = new double[vocabulary.size()];
         for (int i = 0; i < vocabulary.size(); i++) {
@@ -265,6 +325,11 @@ public class NLP {
         return vector;
     }
 
+    /**
+     * Put file in pattern directory into training set
+     * List of Labeled Point @param trainList
+     * @throws Exception
+     */
     private void addTrainItem(List<LabeledPoint> trainList) throws Exception {
         List<String> list = new ArrayList<>();
         Resource[] resources = new PathMatchingResourcePatternResolver().getResources(ResourceUtils.CLASSPATH_URL_PREFIX+ "question/pattern" +"/*.txt");
@@ -280,14 +345,19 @@ public class NLP {
             sentences = scoreQuestions.split(",");
             for (String sentence : sentences) {
                 double[] array = sentenceToVector(sentence);
-                LabeledPoint train_one = new LabeledPoint(index, Vectors.dense(array));
-                trainList.add(train_one);
+                LabeledPoint trainItem = new LabeledPoint(index, Vectors.dense(array));
+                trainList.add(trainItem);
             }
             System.out.println(filename+" " +index);
             index++;
         }
     }
 
+    /**
+     * Use Logistic Regression Model
+     * Trained LogicRegressionModel@return
+     * @throws Exception
+     */
     private LogisticRegressionModel loadModel() throws Exception {
         SparkConf conf = new SparkConf().setAppName("Model").setMaster("local[*]");
         JavaSparkContext sc = new JavaSparkContext(conf);

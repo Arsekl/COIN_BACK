@@ -21,6 +21,11 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    /**
+     * Register for user
+     * User form, include username and password @param userVO
+     * Success or not @return
+     */
     public ResponseVO register(UserVO userVO){
         MessageDigest md5;
         try {
@@ -39,6 +44,11 @@ public class UserService {
         }
     }
 
+    /**
+     * User login
+     * User form include username and password @param userVO
+     * Success or not and uid for frontend to save@return
+     */
     public  ResponseVO login(UserVO userVO){
         MessageDigest md5;
         try {
@@ -47,10 +57,6 @@ public class UserService {
                 md5 = MessageDigest.getInstance("MD5");
                 BigInteger digest = new BigInteger(md5.digest(userVO.getPassword().getBytes(StandardCharsets.UTF_8)));
                 String input = digest.toString(16);
-//                System.out.println("-----------------");
-//                System.out.println(input);
-//                System.out.println(test.getPassword());
-//                System.out.println("-----------------");
                 if (test.getPassword() .equals(input)) return ResponseVO.buildSuccess(test.getUid());
                 else return ResponseVO.buildFailure(PASSWORD_WRONG);
             } else{

@@ -24,6 +24,11 @@ public class MovieService {
     @Autowired
     QuestionMapper mapper;
 
+    /**
+     * Search for person info
+     * Person Name @param name
+     * Person Info @return
+     */
     public ResponseVO getPersonInfo(String name){
         String play = String.format("match (p:Person{name:'%s'})-[:play]->(m:Movie) return m", name);
         String direct = String.format("match (p:Person{name:'%s'})-[:direct]->(m:Movie) return m", name);
@@ -44,6 +49,11 @@ public class MovieService {
         return ResponseVO.buildSuccess(res);
     }
 
+    /**
+     * Search for Movie info
+     * Movie id @param id
+     * Movie info @return
+     */
     public ResponseVO getMovieInfo(long id){
         HashMap<String, Object> res = new HashMap<>();
         String info = String.format("match (m:Movie{id:%s}) return m", id);
@@ -68,6 +78,11 @@ public class MovieService {
         return ResponseVO.buildSuccess(res);
     }
 
+    /**
+     * Search for genres and movies that are liked by user
+     * User id@param uid
+     * User movie data@return
+     */
     public ResponseVO getUserMovieData(long uid){
         String movie = String.format("match (:User{uid:%s})-[:like]->(m:Movie) return m", uid);
         List<HashMap<String, Object>> movies = driver.getGraphNode(movie);
@@ -79,6 +94,12 @@ public class MovieService {
         return ResponseVO.buildSuccess(res);
     }
 
+    /**
+     * Build personal graph for user when they like movie
+     * Movie id @param id
+     * User id @param uid
+     * Success or not @return
+     */
     public ResponseVO likeMovie(long id, long uid){
         //这里的id是从公共电影图查出来的id
         String info = String.format("match (m:Movie{id:%s}) return m", id);
@@ -112,6 +133,12 @@ public class MovieService {
         }
     }
 
+    /**
+     * Delete node and relationship from personal movie graph when user unlike a movie
+     * Node id in user personal movie graph @param id
+     * User id @param uid
+     * Success or not @return
+     */
     public ResponseVO unlikeMovie(long id, long uid){
         //这里的id是用户个人电影图里的id
         try{
@@ -124,6 +151,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Recommend Movie Base on the Movie Similarity(Jaccard)
+     * Movie id @param id
+     * Movie info @return
+     */
     public ResponseVO getRecommendedMovieByMovie(long id){
         //电影之间的相似度
         String cypher = "MATCH (m:Movie {id:%s})-[:is|play|write|direct]-(g)-[:is|play|write|direct]-(other:Movie) WITH m, other, COUNT(g) AS intersection, COLLECT(g.name) AS i MATCH (m)-[:is|play|write|direct]-(mg) WITH m,other, intersection,i, COLLECT(mg.name) AS s1 MATCH (other)-[:is|play|write|direct]-(og) WITH m,other,intersection,i, s1, COLLECT(og.name) AS s2 WITH m,other,intersection,s1,s2 WITH m,other,intersection,s1+[x IN s2 WHERE NOT x IN s1] AS union, s1, s2 WITH other, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard RETURN other ORDER BY jaccard DESC LIMIT 10";
@@ -138,6 +170,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Recommend Movie Base on The Genre in User Personal Graph
+     * User id @param uid
+     * Movie info @return
+     */
     public ResponseVO getRecommendedMovieByUser(long uid){
         //看得最多的题材中，从没看过里推荐
         String cypher = "MATCH (u:User{uid:%s})-[:like]->(m:Movie)-[:is]->(g:Genre) WITH u, g, COUNT(*) AS score, avg(m.rate) AS mean MATCH (g)<-[:is]-(rec:Movie) WHERE NOT EXISTS((u)-[:like]->(rec)) AND rec.rate>mean WITH rec AS recommendation,  SUM(score) AS sscore RETURN recommendation ORDER BY sscore DESC LIMIT 10";
@@ -152,6 +189,10 @@ public class MovieService {
         }
     }
 
+    /**
+     * Recommend Movie Randomly When this is a new user
+     * Movie info @return
+     */
     public ResponseVO getRecommendedMovieByRandom(){
         String cypher = "WITH toInteger(ceil(rand()*4587)) as r MATCH (m:Movie) where m.id<=r+9 and m.id>=r return m ";
         try{
@@ -165,6 +206,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Recommend Movie Form Movie That Are Liked By Other Users Who Liked The Same Movie This User Liked
+     * User id @param uid
+     * Movie Info@return
+     */
     public ResponseVO getRecommendedMovieByOther(long uid){
         String cypher = "match (u:User{uid:%s})-[:like]->(:Movie)<-[:like]-(o:User) where o.uid<>%s  match (o)-[:like]->(m:Movie) where not exists((u)-[:like]->(m)) with  distinct m as movies, count (m) as frequency return movies order by frequency desc limit 10";
         try{
@@ -178,6 +224,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Search Answer for Question Asked By User
+     * Question @param question
+     * Answer @return
+     */
     public ResponseVO getAnswerForQuestion(String question){
         String cypher = nlp.analysisQuery(question);
         try{
@@ -189,6 +240,11 @@ public class MovieService {
         }
     }
 
+    /**
+     * Put Question That User Are Not Satisfied With Into Database
+     * Question @param question
+     * Success or not@return
+     */
     public ResponseVO feedBack(String question){
         mapper.insertQuestion(question);
         return ResponseVO.buildSuccess();
