@@ -95,7 +95,7 @@ public class NLP {
                         setNatureAndFrequency(word, "nr 0");
                         break;
                     case 6:
-                        setNatureAndFrequency(word, "nmo 0");
+                        setNatureAndFrequency(word, "no 0");
                         break;
                     default:
                         break;
@@ -235,9 +235,9 @@ public class NLP {
             } else if (termStr.contains("nd")) { //nd 地区
                 abstractQuery.append("nd ");
                 abstractMap.put("nd", word);
-            } else if (termStr.contains("nmo")) { //nmo 别名
-                abstractQuery.append("nmo ");
-                abstractMap.put("nmo", word);
+            } else if (termStr.contains("no")) { //no 别名
+                abstractQuery.append("no ");
+                abstractMap.put("no", word);
             } else if (termStr.contains("m")) { //m 年份
                 abstractQuery.append("mmm ");
                 abstractMap.put("mmm", word);

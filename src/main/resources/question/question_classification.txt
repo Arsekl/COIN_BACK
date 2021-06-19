@@ -34,19 +34,19 @@
 33,match (p:Person{name:'nnt'})-->(m:Movie)-[s:is]->(g:Genre) return g
 34,match (:Person{name:'nnt'})-->(m:Movie)<--(:Person{name:'nnr'}) return m
 35,match (p:Person{name:'nnt'})-->(m:Movie) return count(m)
-36,match (m:Movie) where m.length>110 return m order by m.rate limit 3
-37,match (m:Movie) where m.length<=110 return m order by m.rate limit 3
-38,match (m:Movie) where m.showtime>=2015 return m order by m.rate limit 3
-39,match (m:Movie) where m.showtime<=2000 return m order by m.rate limit 3
-40,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m order by m.rate limit 3
-41,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m order by m.rate limit 3
-42,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m order by m.rate limit 3
-43,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m order by m.rate limit 3
-44,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m order by m.rate limit 3
-45,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m order by m.rate limit 3
-46,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m order by m.rate limit 3
-47,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m order by m.rate limit 3
-48,match (m:Movie) where m.othername=~'(?i).*nmo.*' return m
+36,match (m:Movie) where m.length>110 return m order by m.rate desc limit 3
+37,match (m:Movie) where m.length<=110 return m order by m.rate desc limit 3
+38,match (m:Movie) where m.showtime>=2015 return m order by m.rate desc limit 3
+39,match (m:Movie) where m.showtime<=2000 return m order by m.rate desc limit 3
+40,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length>110 return m order by m.rate desc limit 3
+41,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.length<=110 return m order by m.rate desc limit 3
+42,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime>=2015 return m order by m.rate desc limit 3
+43,match (m:Movie)-[:is]->(g:Genre{name:'ng'}) where m.showtime<=2000 return m order by m.rate desc limit 3
+44,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length>110 return m order by m.rate desc limit 3
+45,match (m:Movie) where m.language=~'(?i).*nl.*' and m.length<=110 return m order by m.rate desc limit 3
+46,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime>=2015 return m order by m.rate desc limit 3
+47,match (m:Movie) where m.language=~'(?i).*nl.*' and m.showtime<=2000 return m order by m.rate desc limit 3
+48,match (m:Movie) where m.othername=~'(?i).*no.*' return m
 49,match (m:Movie) where m.district=~'(?i).*nd.*' return count(m)
 50,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.length>110 return m
 51,match (p:Person{name:'nnt'})-[r:play]->(m:Movie) where m.length<=110 return m

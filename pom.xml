@@ -42,11 +42,6 @@
                 <scope>test</scope>
             </dependency>
 
-        <dependency>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.4</version>
-        </dependency>
 
         <!-- To bring up a Neo4j instance during test. -->
         <dependency>
