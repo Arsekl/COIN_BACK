@@ -39,9 +39,9 @@ public class NLP {
      * g@throws Exception
      */
     public NLP() throws Exception {
-        loadDict("movieDict.txt", 0);
         loadDict("genreDict.txt", 1);
         loadDict("scoreDict.txt", 2);
+        loadDict("movieDict.txt", 0);
         loadDict("languageDict.txt", 3);
         loadDict("districtDict.txt", 4);
         loadDict("personDict.txt", 5);

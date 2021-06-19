@@ -177,7 +177,7 @@ public class MovieService {
      */
     public ResponseVO getRecommendedMovieByUser(long uid){
         //看得最多的题材中，从没看过里推荐
-        String cypher = "MATCH (u:User{uid:%s})-[:like]->(m:Movie)-[:is]->(g:Genre) WITH u, g, COUNT(*) AS score, avg(m.rate) AS mean MATCH (g)<-[:is]-(rec:Movie) WHERE NOT EXISTS((u)-[:like]->(rec)) AND rec.rate>mean WITH rec AS recommendation,  SUM(score) AS sscore RETURN recommendation ORDER BY sscore DESC LIMIT 10";
+        String cypher = "MATCH (u:User{uid:%s})-[:like]->(m:Movie),(m)-[:is]->(g:Genre)<-[:is]-(rec:Movie) WHERE NOT EXISTS ((u)-[:like]->(rec)) WITH rec,[g.name,COUNT(*)] AS scores WITH rec, COLLECT(scores) AS ss ,REDUCE (s=0, x in COLLECT(scores)|s+x[1]) AS score ORDER BY score DESC LIMIT 10 RETURN rec";
         try{
             List<HashMap<String, Object>> movie = driver.getGraphNode(String.format(cypher, uid));
             HashMap<String, Object> res = new HashMap<>();

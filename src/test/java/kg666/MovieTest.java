@@ -39,7 +39,8 @@ public class MovieTest {
 
     @Test
     void getA(){
-        System.out.println(JSON.toString(service.getAnswerForQuestion("周星驰和吴孟达合作的电影")));
+        System.out.println(JSON.toString(service.getAnswerForQuestion("口碑好的英语短片")));
+      //  System.out.println(JSON.toString(service.getAnswerForQuestion("尖峰时刻片长")));
 //        System.out.println(JSON.toString(service.getAnswerForQuestion("他写了什么短片")));
 //        System.out.println(JSON.toString(service.getAnswerForQuestion("口碑好的普通话新片")));
     }
